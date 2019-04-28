@@ -1,5 +1,12 @@
-// Margin
-$margin-map: (
+// # Layout
+$display-properties: (
+  "": display,
+);
+
+@include utility("", $display-properties, $displays, base responsive);
+
+// # Spacing
+$margin-properties: (
   "": margin,
   t: margin-top,
   r: margin-right,
@@ -9,11 +16,16 @@ $margin-map: (
   y: margin-top margin-bottom,
 );
 
-@include utility("m-", $margin-map, $margins, base hover responsive);
+@include utility("m", $margin-properties, $margins, base hover responsive);
 
-// Display
-$display-map: (
-  "": display,
+$padding-properties: (
+  "": padding,
+  t: padding-top,
+  r: padding-right,
+  b: padding-bottom,
+  l: padding-left,
+  x: padding-left padding-right,
+  y: padding-top padding-bottom,
 );
 
-@include utility("", $display-map, $displays, base responsive);
+@include utility("p", $padding-properties, $padding, base hover responsive);

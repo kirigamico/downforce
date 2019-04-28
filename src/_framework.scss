@@ -16,11 +16,16 @@
         );
       }
 
+      $name: "#{$selector}#{$property-key}-#{$setting}";
+      @if $selector == "" {
+        $name: "#{$property-key}#{$setting}";
+      }
+
       $node-list: append(
         $node-list,
         (
           "type": "class",
-          "name": "#{$selector}#{$property-key}#{$setting}",
+          "name": $name,
           "value": $property-values,
         )
       );

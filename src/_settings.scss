@@ -1,4 +1,19 @@
-// Margin
+// # Global
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+// Layout
+$displays: (
+  hidden: "none",
+  block: "block",
+  inline-block: "inline-block",
+);
+
+// Spacing
 $margins: (
   1: 0.25em,
   2: 0.5em,
@@ -7,24 +22,17 @@ $margins: (
   5: 1.5em,
 );
 
-// Display
-$displays: (
-  hidden: "none",
-  block: "block",
-  inline-block: "inline-block",
+$padding: (
+  1: 0.25em,
+  2: 0.5em,
+  3: 0.75em,
+  4: 1em,
+  5: 1.5em,
 );
 
-// Breakpoints
-$breakpoints: (
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-);
-
-// Modifiers
+// # Modifiers
 $all-modifiers: (
   base: get-function("base-modifier"),
   responsive: get-function("responsive-modifier"),
   hover: get-function("hover-modifier"),
-)
+);
