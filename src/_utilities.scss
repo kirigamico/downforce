@@ -1,4 +1,4 @@
-// setting map
+// Margin
 $margin-map: (
   "": margin,
   t: margin-top,
@@ -11,15 +11,9 @@ $margin-map: (
 
 @include utility("m-", $margin-map, $margins, base hover responsive);
 
+// Display
 $display-map: (
   "": display,
-);
-
-// value map
-$displays: (
-  hidden: "none",
-  block: "block",
-  inline-block: "inline-block",
 );
 
 @include utility("", $display-map, $displays, base responsive);

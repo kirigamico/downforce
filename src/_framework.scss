@@ -1,68 +1,30 @@
-// .md:flex
-// .color-black
-// .text-right
-// .sm:mt-1
-// m == selector
-// t == side
-// 1 == setting
-// value == value
-// sm == modifier
-
-// $shape: [
-//   (
-//     "type": "media",
-//     "name": "only screen and(min-width: 123px)",
-//     "value": ["...node-list"]
-//   ),
-//   (
-//     "type": "class",
-//     "name": "whatever",
-//     "value": ["...node-list"]
-//   ),
-//   (
-//     "type": "property",
-//     "name": "margin",
-//     "value": 12px,
-//   ),
-// ];
-@function build-properties($selector, $property-names, $value-map) {
-  $node-list: [];
-
-  @each $setting, $value in $value-map {
-    $property-values: [];
-
-    @each $property in $property-names {
-      $property-values: append(
-        $property-values,
-        (
-          "type": "property",
-          "name": $property,
-          "value": $value,
-        )
-      );
-    }
-
-    $node-list: append(
-      $node-list,
-      (
-        "type": "class",
-        "name": "#{$selector}#{$setting}",
-        "value": $property-values,
-      )
-    );
-  }
-
-  @return $node-list;
-}
-
 @function build-utility($selector, $property-map, $value-map) {
   $node-list: [];
 
   @each $property-key, $property-names in $property-map {
-    $node-list: join(
-      $node-list,
-      build-properties("#{$selector}#{$property-key}", $property-names, $value-map)
-    );
+    @each $setting, $value in $value-map {
+      $property-values: [];
+
+      @each $property in $property-names {
+        $property-values: append(
+          $property-values,
+          (
+            "type": "property",
+            "name": $property,
+            "value": $value,
+          )
+        );
+      }
+
+      $node-list: append(
+        $node-list,
+        (
+          "type": "class",
+          "name": "#{$selector}#{$property-key}#{$setting}",
+          "value": $property-values,
+        )
+      );
+    }
   }
 
   @return $node-list;
