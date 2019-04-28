@@ -12,3 +12,9 @@ $breakpoints: (
   lg: 992px,
   xl: 1200px,
 );
+
+$all-modifiers: (
+  base: get-function("base-modifier"),
+  responsive: get-function("responsive-modifier"),
+  hover: get-function("hover-modifier"),
+)

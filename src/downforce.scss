@@ -1,6 +1,8 @@
 @import "normalize-scss/sass/normalize";
 
-@import "settings";
+@import "helpers";
+
 @import "modifiers/*";
 @import "mixins/*";
+@import "settings";
 @import "utilities/*";

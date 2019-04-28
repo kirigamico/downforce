@@ -1,9 +1,23 @@
-@mixin mod-responsive($root) {
+@function responsive-modifier($node-list) {
+  $media-queries: [];
+
   @each $key, $value in $breakpoints {
-    @media only screen and (min-width: $value) {
-      .#{$key + "\\:"} {
-        @content;
-      }
+    $new-node-list: [];
+
+    @each $node in $node-list {
+      $node-name: map-get($node, "name");
+      $new-node-list: append(
+        $new-node-list,
+        map-merge($node, ("name": "#{$key}\\:#{$node-name}"))
+      );
     }
+
+    $media-queries: append($media-queries, (
+        "type": "media",
+        "name": "only screen and (min-width: #{$value})",
+        "value": $new-node-list,
+    ));
   }
+
+  @return $media-queries;
 }

@@ -7,4 +7,4 @@ $margin-sides: (
   y: margin-top margin-bottom,
 );
 
-@include utility("m", $margin-sides, $margins)
+@include utility("m", $margin-sides, $margins, base hover responsive);

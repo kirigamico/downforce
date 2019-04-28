@@ -7,52 +7,93 @@
 // 1 == setting
 // value == value
 // sm == modifier
-//
-// $output: (
-//   '.mt-1': (
-//     margin-top: 1px,
-//   ),
-//   '.mt-2': (
-//     margin-top: 2px,
-//   ),
-//   '.mb-1': (
-//     margin-bottom: 1px,
-//   ),
-// )
 
-@function get-tree($selector, $sides, $values) {
-  $classes: ();
+// $shape: [
+//   (
+//     "type": "media",
+//     "name": "only screen and(min-width: 123px)",
+//     "value": ["...node-list"]
+//   ),
+//   (
+//     "type": "class",
+//     "name": "whatever",
+//     "value": ["...node-list"]
+//   ),
+//   (
+//     "type": "property",
+//     "name": "margin",
+//     "value": 12px,
+//   ),
+// ];
+
+@function build-utility($selector, $sides, $values) {
+  $node-list: [];
 
   @each $side-key, $properties in $sides {
     @each $setting, $value in $values {
-      $property-value-map: ();
+      $property-values: [];
 
       @each $property in $properties {
-        $property-value-map: map-merge($property-value-map, ($property: $value));
+        $property-values: append(
+          $property-values,
+          (
+            "type": "property",
+            "name": $property,
+            "value": $value,
+          )
+        );
       }
 
-      $classes: map-merge(
-        $classes,
-        ("." + $selector + $side-key + "-" + $setting: $property-value-map)
+      $node-list: append(
+        $node-list,
+        (
+          "type": "class",
+          "name": "#{$selector}#{$side-key}-#{$setting}",
+          "value": $property-values,
+        )
       );
     }
   }
 
-  @return $classes;
+  @return $node-list;
 }
 
-@mixin render($tree) {
-  @each $node, $leaf in $tree {
-    @if type-of($leaf) == map {
-      #{$node} {
-        @include render($leaf);
+
+@mixin render($node-list) {
+  @each $node in $node-list {
+    $node-type: map-get($node, "type");
+    $node-name: map-get($node, "name");
+    $node-value: map-get($node, "value");
+
+    @if $node-type == "property" {
+      #{$node-name}: $node-value;
+    } @else if $node-type == "class" {
+      .#{$node-name} {
+        @include render($node-value);
       }
-    } @else {
-      #{$node}: $leaf;
+    } @else if $node-type == "media" {
+      @media #{$node-name} {
+        @include render($node-value);
+      }
     }
   }
 }
 
-@mixin utility($selector, $sides, $values, $modifiers: []) {
-  @include render(get-tree($selector, $sides, $values))
+@mixin utility($selector, $sides, $values, $modifiers: base) {
+  $node-list: build-utility($selector, $sides, $values);
+
+  @each $modifier in $modifiers {
+    $func: map-get($all-modifiers, $modifier);
+    @include render(call($func, $node-list));
+
+    // Also apply responsive modifier to modifiers
+    @if $modifier == "responsive" {
+      @each $sub-modifier in $modifiers {
+        @if index(base responsive, $sub-modifier) == null {
+          $sub-func: map-get($all-modifiers, $sub-modifier);
+          @include render(call($func, call($sub-func, $node-list)));
+        }
+      }
+    }
+  }
 }
