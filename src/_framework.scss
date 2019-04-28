@@ -58,7 +58,6 @@
   @return $node-list;
 }
 
-
 @mixin render($node-list) {
   @each $node in $node-list {
     $node-type: map-get($node, "type");

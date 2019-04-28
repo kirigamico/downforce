@@ -1,3 +1,11 @@
+@function base-modifier($node-list) {
+  @return $node-list;
+}
+
+@function hover-modifier($node-list) {
+  @return affix($node-list, $prefix: "hover\\:", $suffix: ":hover");
+}
+
 @function responsive-modifier($node-list) {
   $media-queries: [];
 
