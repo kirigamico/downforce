@@ -11,3 +11,16 @@
 
   @return $new-node-list;
 }
+
+@function negate($value-map) {
+  $new-value-map: ();
+
+  @each $setting, $value in $value-map {
+    $new-value-map: map-merge(
+      $new-value-map,
+      ($setting: $value * -1)
+    );
+  }
+
+  @return $new-value-map;
+}

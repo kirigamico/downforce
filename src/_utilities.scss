@@ -17,6 +17,7 @@ $margin-properties: (
 );
 
 @include utility("m", $margin-properties, $margins, base hover responsive);
+@include utility("-m", $margin-properties, negate($margins), base hover responsive);
 
 $padding-properties: (
   "": padding,
