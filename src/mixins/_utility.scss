@@ -1,0 +1,58 @@
+// .md:flex
+// .color-black
+// .text-right
+// .sm:mt-1
+// m == selector
+// t == side
+// 1 == setting
+// value == value
+// sm == modifier
+//
+// $output: (
+//   '.mt-1': (
+//     margin-top: 1px,
+//   ),
+//   '.mt-2': (
+//     margin-top: 2px,
+//   ),
+//   '.mb-1': (
+//     margin-bottom: 1px,
+//   ),
+// )
+
+@function get-tree($selector, $sides, $values) {
+  $classes: ();
+
+  @each $side-key, $properties in $sides {
+    @each $setting, $value in $values {
+      $property-value-map: ();
+
+      @each $property in $properties {
+        $property-value-map: map-merge($property-value-map, ($property: $value));
+      }
+
+      $classes: map-merge(
+        $classes,
+        ("." + $selector + $side-key + "-" + $setting: $property-value-map)
+      );
+    }
+  }
+
+  @return $classes;
+}
+
+@mixin render($tree) {
+  @each $node, $leaf in $tree {
+    @if type-of($leaf) == map {
+      #{$node} {
+        @include render($leaf);
+      }
+    } @else {
+      #{$node}: $leaf;
+    }
+  }
+}
+
+@mixin utility($selector, $sides, $values, $modifiers: []) {
+  @include render(get-tree($selector, $sides, $values))
+}

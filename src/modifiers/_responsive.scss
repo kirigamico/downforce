@@ -1,0 +1,9 @@
+@mixin mod-responsive($root) {
+  @each $key, $value in $breakpoints {
+    @media only screen and (min-width: $value) {
+      .#{$key + "\\:"} {
+        @content;
+      }
+    }
+  }
+}

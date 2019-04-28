@@ -1,0 +1,10 @@
+$margin-sides: (
+  t: margin-top,
+  r: margin-right,
+  b: margin-bottom,
+  l: margin-left,
+  x: margin-left margin-right,
+  y: margin-top margin-bottom,
+);
+
+@include utility("m", $margin-sides, $margins)

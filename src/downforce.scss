@@ -1,3 +1,6 @@
-body {
-  color: red;
-}
+@import "normalize-scss/sass/normalize";
+
+@import "settings";
+@import "modifiers/*";
+@import "mixins/*";
+@import "utilities/*";
