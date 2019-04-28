@@ -25,34 +25,44 @@
 //     "value": 12px,
 //   ),
 // ];
-
-@function build-utility($selector, $sides, $values) {
+@function build-properties($selector, $property-names, $value-map) {
   $node-list: [];
 
-  @each $side-key, $properties in $sides {
-    @each $setting, $value in $values {
-      $property-values: [];
+  @each $setting, $value in $value-map {
+    $property-values: [];
 
-      @each $property in $properties {
-        $property-values: append(
-          $property-values,
-          (
-            "type": "property",
-            "name": $property,
-            "value": $value,
-          )
-        );
-      }
-
-      $node-list: append(
-        $node-list,
+    @each $property in $property-names {
+      $property-values: append(
+        $property-values,
         (
-          "type": "class",
-          "name": "#{$selector}#{$side-key}-#{$setting}",
-          "value": $property-values,
+          "type": "property",
+          "name": $property,
+          "value": $value,
         )
       );
     }
+
+    $node-list: append(
+      $node-list,
+      (
+        "type": "class",
+        "name": "#{$selector}#{$setting}",
+        "value": $property-values,
+      )
+    );
+  }
+
+  @return $node-list;
+}
+
+@function build-utility($selector, $property-map, $value-map) {
+  $node-list: [];
+
+  @each $property-key, $property-names in $property-map {
+    $node-list: join(
+      $node-list,
+      build-properties("#{$selector}#{$property-key}", $property-names, $value-map)
+    );
   }
 
   @return $node-list;
@@ -78,8 +88,8 @@
   }
 }
 
-@mixin utility($selector, $sides, $values, $modifiers: base) {
-  $node-list: build-utility($selector, $sides, $values);
+@mixin utility($selector, $property-map, $value-map, $modifiers: base) {
+  $node-list: build-utility($selector, $property-map, $value-map);
 
   @each $modifier in $modifiers {
     $func: map-get($all-modifiers, $modifier);
