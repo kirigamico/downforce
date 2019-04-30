@@ -55,8 +55,16 @@
   }
 }
 
+$all-utilities: ();
+
 @mixin utility($selector, $property-map, $value-map, $modifiers: base) {
   $node-list: build-utility($selector, $property-map, $value-map);
+
+  // Register generated utilities
+  @each $node in $node-list {
+    $node-name: map-get($node, "name");
+    $all-utilities: map-merge($all-utilities, ($node-name: $node)) !global;
+  }
 
   @each $modifier in $modifiers {
     $func: map-get($all-modifiers, $modifier);
@@ -72,4 +80,21 @@
       }
     }
   }
+}
+
+@mixin apply($utilities) {
+  $base-modifier: map-get($all-modifiers, "base");
+
+  $property-node-list: [];
+
+  @each $utility in $utilities {
+    $node: map-get($all-utilities, $utility);
+    @if $node == null {
+      @error "Utility '#{$utility}' does not exist";
+    }
+
+    $property-node-list: join($property-node-list, map-get($node, "value"));
+  }
+
+  @include render(call($base-modifier, $property-node-list));
 }
