@@ -1,4 +1,4 @@
-@function build-utility($selector, $property-map, $value-map) {
+@function build-utility($prefix, $property-map, $value-map) {
   $node-list: [];
 
   @each $property-key, $property-names in $property-map {
@@ -16,9 +16,13 @@
         );
       }
 
-      $name: "#{$selector}#{$property-key}-#{$setting}";
-      @if $selector == "" {
-        $name: "#{$property-key}#{$setting}";
+      $name: "";
+      @if $prefix == "" and $property-key == "*"  {
+        $name: "#{$setting}";
+      } @else if $property-key == "*" {
+        $name: "#{$prefix}-#{$setting}";
+      } @else {
+        $name: "#{$prefix}#{$property-key}-#{$setting}";
       }
 
       $node-list: append(
@@ -55,31 +59,84 @@
   }
 }
 
-$all-utilities: ();
+$base-utilities: ();
 
-@mixin utility($selector, $property-map, $value-map, $modifiers: base) {
-  $node-list: build-utility($selector, $property-map, $value-map);
+@mixin utilities($utilities) {
+  $master-node-list: [];
+  $base-node-list: [];
+  $responsive-node-list: [];
 
-  // Register generated utilities
-  @each $node in $node-list {
-    $node-name: map-get($node, "name");
-    $all-utilities: map-merge($all-utilities, ($node-name: $node)) !global;
-  }
+  @each $label, $utility-map in $utilities {
+    $prefix: map-get($utility-map, "prefix");
+    $property-map: map-get($utility-map, "properties");
+    $value-map: map-get($utility-map, "values");
+    $modifiers: map-get($utility-map, "modifiers");
 
-  @each $modifier in $modifiers {
-    $func: map-get($all-modifiers, $modifier);
-    @include render(call($func, $node-list));
+    $node-list: build-utility($prefix, $property-map, $value-map);
 
-    // Also apply responsive modifier to modifiers
-    @if $modifier == "responsive" {
-      @each $sub-modifier in $modifiers {
-        @if index(base responsive, $sub-modifier) == null {
-          $sub-func: map-get($all-modifiers, $sub-modifier);
-          @include render(call($func, call($sub-func, $node-list)));
+    // Register generated utilities
+    @each $node in $node-list {
+      $node-name: map-get($node, "name");
+      $base-utilities: map-merge($base-utilities, ($node-name: $node)) !global;
+    }
+
+    @each $modifier in $modifiers {
+      $func: map-get($all-modifiers, $modifier);
+
+      @if $modifier != "responsive" {
+        $base-node-list: join($base-node-list, call($func, $node-list));
+      } @else {
+        $responsive-node-list: join($responsive-node-list, call($func, $node-list));
+
+        // Also apply responsive modifier to modifiers
+
+        @each $sub-modifier in $modifiers {
+          @if index(base responsive, $sub-modifier) == null {
+            $sub-func: map-get($all-modifiers, $sub-modifier);
+            $responsive-node-list: join(
+              $responsive-node-list,
+              call($func, call($sub-func, $node-list))
+            );
+          }
         }
       }
     }
   }
+
+  // Render utilities without modifiers
+  @include render($base-node-list);
+
+  // Group media queries
+  $media-nodes: ();
+
+  @each $node in $responsive-node-list {
+    $node-type: map-get($node, "type");
+    $query: map-get($node, "name");
+    $class-node-list: map-get($node, "value");
+
+    @if not map-has-key($media-nodes, $query) {
+      $media-nodes: map-merge($media-nodes, ($query: $class-node-list));
+    } @else {
+      $media-nodes: map-merge(
+        $media-nodes,
+        ($query: join(map-get($media-nodes, $query), $class-node-list))
+      );
+    }
+  }
+
+  $grouped-media-node-list: [];
+  @each $query, $class-node-list in $media-nodes {
+    $grouped-media-node-list: append(
+      $grouped-media-node-list,
+      (
+        "type": "media",
+        "name": $query,
+        "value": $class-node-list,
+      )
+    );
+  }
+
+  @include render($grouped-media-node-list);
 }
 
 @mixin apply($utilities) {
@@ -88,7 +145,7 @@ $all-utilities: ();
   $property-node-list: [];
 
   @each $utility in $utilities {
-    $node: map-get($all-utilities, $utility);
+    $node: map-get($base-utilities, $utility);
     @if $node == null {
       @error "Utility '#{$utility}' does not exist";
     }

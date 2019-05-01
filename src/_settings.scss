@@ -6,28 +6,80 @@ $breakpoints: (
   xl: 1200px,
 );
 
-// Layout
-$displays: (
-  hidden: none,
-  block: block,
-  inline-block: inline-block,
-);
 
-// Spacing
-$margins: (
-  1: 0.25em,
-  2: 0.5em,
-  3: 0.75em,
-  4: 1em,
-  5: 1.5em,
-);
-
-$padding: (
-  1: 0.25em,
-  2: 0.5em,
-  3: 0.75em,
-  4: 1em,
-  5: 1.5em,
+$downforce-utilities: (
+  display: (
+    prefix: "",
+    properties: (
+      "*": display,
+    ),
+    values: (
+      "hidden": none,
+      "block": block,
+      "inline-block": inline-block,
+    ),
+    modifiers: base responsive,
+  ),
+  padding: (
+    prefix: "p",
+    properties: (
+      "*": padding,
+      "t": padding-top,
+      "r": padding-right,
+      "b": padding-bottom,
+      "l": padding-left,
+      "x": padding-left padding-right,
+      "y": padding-top padding-bottom,
+    ),
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+    modifiers: base responsive,
+  ),
+  margin: (
+    prefix: "m",
+    properties: (
+      "*": margin,
+      "t": margin-top,
+      "r": margin-right,
+      "b": margin-bottom,
+      "l": margin-left,
+      "x": margin-left margin-right,
+      "y": margin-top margin-bottom,
+    ),
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+    modifiers: base responsive,
+  ),
+  negative-margin: (
+    prefix: "-m",
+    properties: (
+      "*": margin,
+      "t": margin-top,
+      "r": margin-right,
+      "b": margin-bottom,
+      "l": margin-left,
+      "x": margin-left margin-right,
+      "y": margin-top margin-bottom,
+    ),
+    values: (
+      "1": -0.25em,
+      "2": -0.5em,
+      "3": -0.75em,
+      "4": -1em,
+      "5": -1.5em,
+    ),
+    modifiers: base responsive,
+  ),
 );
 
 // # Modifiers

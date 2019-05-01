@@ -10,15 +10,7 @@
   $media-queries: [];
 
   @each $key, $value in $breakpoints {
-    $new-node-list: [];
-
-    @each $node in $node-list {
-      $node-name: map-get($node, "name");
-      $new-node-list: append(
-        $new-node-list,
-        map-merge($node, ("name": "#{$key}\\:#{$node-name}"))
-      );
-    }
+    $new-node-list: affix($node-list, $prefix: "#{$key}\\:");
 
     $media-queries: append($media-queries, (
         "type": "media",
