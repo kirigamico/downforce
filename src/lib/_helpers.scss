@@ -1,0 +1,30 @@
+@function affix($node-list, $prefix: "", $suffix: "") {
+  $new-node-list: [];
+
+  @each $node in $node-list {
+    $node-name: map-get($node, "name");
+    $new-node-list: append(
+      $new-node-list,
+      map-merge($node, ("name": "#{$prefix}#{$node-name}#{$suffix}"))
+    );
+  }
+
+  @return $new-node-list;
+}
+
+@function deep-map-merge($map1, $map2) {
+  $merged-map: $map1;
+
+  @each $key, $value in $map2 {
+    @if type-of(map-get($merged-map, $key)) == "map" and type-of($value) == "map" {
+      $merged-map: map-merge(
+        $merged-map,
+        ($key: deep-map-merge(map-get($merged-map, $key), $value))
+      );
+    } @else {
+      $merged-map: map-merge($merged-map, ($key: $value));
+    }
+  }
+
+  @return $merged-map;
+}

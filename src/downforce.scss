@@ -1,9 +1,11 @@
-@import "normalize-scss/sass/normalize";
-
-@import "helpers";
-@import "modifiers";
-@import "framework";
+// User's custom settings
 @import "settings";
-@import "utilities";
 
+// Sets up Downforce dependencies
+@import "warm-up";
+
+// User's custom components
 @import "components/*";
+
+// Render utilities
+@include utilities;

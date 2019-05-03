@@ -1,0 +1,28 @@
+//  Warm up
+//  -------
+//
+//  Import this file before anything else
+
+// TODO: Import vendored normalize
+@import "lib/helpers";
+@import "lib/modifiers";
+@import "lib/engine";
+@import "lib/default-settings";
+
+// Combine settings
+$utilities: () !default;
+$utilities: deep-map-merge($downforce-utilities, $utilities);
+
+$global-node-list: build-utilities($utilities);
+
+// Register generated utilities
+$global-class-nodes: ();
+
+@each $node in $global-node-list {
+  @if map-get($node, "type") == "class" {
+    $node-name: map-get($node, "name");
+    $global-class-nodes: map-merge($global-class-nodes, ($node-name: $node)) !global;
+  }
+}
+
+@import "lib/renderer";
