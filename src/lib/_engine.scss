@@ -97,10 +97,18 @@
     $merged-utilities: map-get($settings, "utilities");
 
     @each $utility-name, $utility-map in $utilities {
-      $default-utility-map: map-get($merged-utilities, $utility-name);
+      @if type-of($utility-map) == "map" {
+        // Merge default utility settings with user's settings
+        $default-utility-map: map-get($merged-utilities, $utility-name);
 
-      $merged-utility-map: map-merge($default-utility-map, $utility-map);
-      $merged-utilities: map-merge($merged-utilities, ($utility-name: $merged-utility-map));
+        $merged-utility-map: map-merge($default-utility-map, $utility-map);
+        $merged-utilities: map-merge($merged-utilities, ($utility-name: $merged-utility-map));
+      } @else if type-of($utility-map) == "bool" {
+        // Remove a utility if the user set it to false
+        @if not $utility-map {
+          $merged-utilities: map-remove($merged-utilities, $utility-name);
+        }
+      }
     }
 
     $settings: map-merge($settings, (utilities: $merged-utilities));
