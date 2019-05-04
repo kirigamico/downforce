@@ -57,6 +57,7 @@
 }
 
 @function build-utilities($utilities) {
+  $all-modifiers: map-get($global-downforce-settings, "modifiers");
   $master-node-list: [];
 
   @each $utility-name, $utility-map in $utilities {
@@ -68,7 +69,7 @@
     $modifiers: ();
 
     @each $name in $modifier-names {
-      $modifiers: map-merge($modifiers, ($name: map-get($global-modifiers, $name)));
+      $modifiers: map-merge($modifiers, ($name: map-get($all-modifiers, $name)));
     }
 
     $node-list: build-utility($prefix, $property-map, $value-map, $modifiers);
@@ -76,4 +77,33 @@
   }
 
   @return $master-node-list;
+}
+
+@function build-settings() {
+  $settings: $downforce-settings;
+
+  @if global-variable-exists("breakpoints") {
+    $settings: map-merge($settings, (breakpoints: $breakpoints));
+  }
+
+  @if global-variable-exists("modifiers") {
+    $default-modifiers: map-get($settings, "modifiers");
+    $settings: map-merge(
+      $settings, (modifiers: map-merge($default-modifiers, $modifiers))
+    );
+  }
+
+  @if global-variable-exists("utilities") {
+    $merged-utilities: map-get($settings, "utilities");
+
+    @each $utility-name, $utility-map in $utilities {
+      $default-utility-map: map-get($merged-utilities, $utility-name);
+
+      $merged-utilities: map-merge(
+        $merged-utilities, ($utility-name: map-merge($default-utility-map, $utility-map))
+      );
+    }
+  }
+
+  @return $settings;
 }

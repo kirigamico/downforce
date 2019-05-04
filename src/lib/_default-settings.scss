@@ -1,93 +1,110 @@
 //  Downforce Settings
 //  ------------------
 
-// 1. Breakpoints
-// --------------
-$breakpoints: (
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-);
+$downforce-settings: (
+  // Breakpoints
+  // -----------
+  breakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+  ),
 
+  // Utilities
+  // ---------
+  utilities: (
+    // Display
+    // -------
+    display: (
+      prefix: "",
+      properties: (
+        "*": display,
+      ),
+      values: (
+        "hidden": none,
+        "block": block,
+        "inline-block": inline-block,
+      ),
+      modifiers: responsive,
+    ),
 
-$downforce-utilities: (
-  display: (
-    prefix: "",
-    properties: (
-      "*": display,
+    // Spacing
+    // -------
+    // Padding
+    // =======
+    padding: (
+      prefix: "p",
+      properties: (
+        "*": padding,
+        "t": padding-top,
+        "r": padding-right,
+        "b": padding-bottom,
+        "l": padding-left,
+        "x": padding-left padding-right,
+        "y": padding-top padding-bottom,
+      ),
+      values: (
+        "1": 0.25em,
+        "2": 0.5em,
+        "3": 0.75em,
+        "4": 1em,
+        "5": 1.5em,
+      ),
+      modifiers: responsive,
     ),
-    values: (
-      "hidden": none,
-      "block": block,
-      "inline-block": inline-block,
-    ),
-    modifiers: responsive,
-  ),
-  padding: (
-    prefix: "p",
-    properties: (
-      "*": padding,
-      "t": padding-top,
-      "r": padding-right,
-      "b": padding-bottom,
-      "l": padding-left,
-      "x": padding-left padding-right,
-      "y": padding-top padding-bottom,
-    ),
-    values: (
-      "1": 0.25em,
-      "2": 0.5em,
-      "3": 0.75em,
-      "4": 1em,
-      "5": 1.5em,
-    ),
-    modifiers: responsive,
-  ),
-  margin: (
-    prefix: "m",
-    properties: (
-      "*": margin,
-      "t": margin-top,
-      "r": margin-right,
-      "b": margin-bottom,
-      "l": margin-left,
-      "x": margin-left margin-right,
-      "y": margin-top margin-bottom,
-    ),
-    values: (
-      "1": 0.25em,
-      "2": 0.5em,
-      "3": 0.75em,
-      "4": 1em,
-      "5": 1.5em,
-    ),
-    modifiers: responsive,
-  ),
-  negative-margin: (
-    prefix: "-m",
-    properties: (
-      "*": margin,
-      "t": margin-top,
-      "r": margin-right,
-      "b": margin-bottom,
-      "l": margin-left,
-      "x": margin-left margin-right,
-      "y": margin-top margin-bottom,
-    ),
-    values: (
-      "1": -0.25em,
-      "2": -0.5em,
-      "3": -0.75em,
-      "4": -1em,
-      "5": -1.5em,
-    ),
-    modifiers: responsive,
-  ),
-);
 
-// # Modifiers
-$global-modifiers: (
-  responsive: get-function("responsive-modifier"),
-  hover: get-function("hover-modifier"),
+    // Margin
+    // ======
+    margin: (
+      prefix: "m",
+      properties: (
+        "*": margin,
+        "t": margin-top,
+        "r": margin-right,
+        "b": margin-bottom,
+        "l": margin-left,
+        "x": margin-left margin-right,
+        "y": margin-top margin-bottom,
+      ),
+      values: (
+        "1": 0.25em,
+        "2": 0.5em,
+        "3": 0.75em,
+        "4": 1em,
+        "5": 1.5em,
+      ),
+      modifiers: responsive,
+    ),
+
+    // Negative margin
+    // ===============
+    negative-margin: (
+      prefix: "-m",
+      properties: (
+        "*": margin,
+        "t": margin-top,
+        "r": margin-right,
+        "b": margin-bottom,
+        "l": margin-left,
+        "x": margin-left margin-right,
+        "y": margin-top margin-bottom,
+      ),
+      values: (
+        "1": -0.25em,
+        "2": -0.5em,
+        "3": -0.75em,
+        "4": -1em,
+        "5": -1.5em,
+      ),
+      modifiers: responsive,
+    ),
+  ),
+
+  // Modifiers
+  // ---------
+  modifiers: (
+    responsive: get-function("responsive-modifier"),
+    hover: get-function("hover-modifier"),
+  ),
 );

@@ -7,9 +7,10 @@
 }
 
 @function responsive-modifier($node-list) {
+  $all-breakpoints: map-get($global-downforce-settings, "breakpoints");
   $media-queries: [];
 
-  @each $key, $value in $breakpoints {
+  @each $key, $value in $all-breakpoints {
     $new-node-list: affix($node-list, $prefix: "#{$key}\\:");
 
     $media-queries: append($media-queries, (

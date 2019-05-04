@@ -10,10 +10,8 @@
 @import "lib/default-settings";
 
 // Combine settings
-$utilities: () !default;
-$utilities: deep-map-merge($downforce-utilities, $utilities);
-
-$global-node-list: build-utilities($utilities);
+$global-downforce-settings: build-settings();
+$global-node-list: build-utilities(map-get($global-downforce-settings, "utilities"));
 
 // Register generated utilities
 $global-class-nodes: ();
@@ -21,7 +19,7 @@ $global-class-nodes: ();
 @each $node in $global-node-list {
   @if map-get($node, "type") == "class" {
     $node-name: map-get($node, "name");
-    $global-class-nodes: map-merge($global-class-nodes, ($node-name: $node)) !global;
+    $global-class-nodes: map-merge($global-class-nodes, ($node-name: $node));
   }
 }
 
