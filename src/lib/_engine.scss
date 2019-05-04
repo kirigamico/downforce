@@ -99,10 +99,11 @@
     @each $utility-name, $utility-map in $utilities {
       $default-utility-map: map-get($merged-utilities, $utility-name);
 
-      $merged-utilities: map-merge(
-        $merged-utilities, ($utility-name: map-merge($default-utility-map, $utility-map))
-      );
+      $merged-utility-map: map-merge($default-utility-map, $utility-map);
+      $merged-utilities: map-merge($merged-utilities, ($utility-name: $merged-utility-map));
     }
+
+    $settings: map-merge($settings, (utilities: $merged-utilities));
   }
 
   @return $settings;
