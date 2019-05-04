@@ -35,3 +35,17 @@
   }
   @return $map;
 }
+
+@function value-map($values...) {
+  $value-map: ();
+
+  @each $value in $values {
+    @if type-of($value) == "map" {
+      $value-map: map-merge($value-map, $value);
+    } @else {
+      $value-map: map-merge($value-map, ("#{$value}": $value));
+    }
+  }
+
+  @return $value-map;
+}

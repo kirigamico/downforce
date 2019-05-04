@@ -1,7 +1,10 @@
 $utilities: (
-  display: (
+  display: (),
+  padding: (),
+  margin: (
     values: (
-      "grid": grid,
+      "1": 20px,
+      "2": 30px,
     )
   ),
   negative-margin: false,

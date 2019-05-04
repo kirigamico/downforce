@@ -114,5 +114,18 @@
     $settings: map-merge($settings, (utilities: $merged-utilities));
   }
 
+  // Merge default keys to utilities
+  $final-utilities: map-get($settings, "utilities");
+  @each $utility-name, $utility-map in $final-utilities {
+    $template-utility: (
+      prefix: "",
+      modifiers: [],
+    );
+    $final-utility: map-merge($template-utility, $utility-map);
+    $final-utilities: map-merge($final-utilities, ($utility-name: $final-utility));
+  }
+
+  $settings: map-merge($settings, (utilities: $final-utilities));
+
   @return $settings;
 }

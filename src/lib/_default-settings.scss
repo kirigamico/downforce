@@ -14,19 +14,132 @@ $downforce-settings: (
   // Utilities
   // ---------
   utilities: (
+    // Layout
+    // ------
     // Display
-    // -------
+    // =======
     display: (
-      prefix: "",
       properties: (
         "*": display,
       ),
-      values: (
-        "hidden": none,
-        "block": block,
-        "inline-block": inline-block,
+      values: value-map(
+        ("hidden": none),
+          block,
+          inline-block,
+          flex,
+          inline-flex,
+          inline,
+          table,
+          table-row,
+          table-cell,
       ),
       modifiers: responsive,
+    ),
+
+    // Float
+    // ===== (TODO: Missing clearfix)
+    float: (
+      prefix: "float",
+      properties: ("*": float),
+      values: value-map(right, left, none),
+    ),
+
+    // Object fit
+    // ==========
+    object-fit: (
+      prefix: "object",
+      properties: ("*": object-fit),
+      values: value-map(contain, cover, fill, none, scale-down),
+    ),
+
+    // Object position
+    // ===============
+    object-position: (
+      prefix: "object",
+      properties: ("*": object-position),
+      values: value-map(
+        top, right-top, right, right-bottom, bottom, left-bottom,
+        left, left-top, center,
+      ),
+    ),
+
+    // Overflow
+    // ========
+    overflow: (
+      prefix: "overflow",
+      properties: (
+        "*": overflow,
+        "-x": overflow-x,
+        "-y": overflow-y,
+      ),
+      values: value-map(auto, hidden, visible, scroll),
+    ),
+
+    // Position
+    // ========
+    position: (
+      properties: ("*": position),
+      values: value-map(static, fixed, absolute, relative, sticky),
+    ),
+
+    // Top Right Bottom Left
+    // =====================
+    top-right-bottom-left: (
+      properties: (
+        "inset": top right bottom left,
+        "inset-x": right left,
+        "inset-y": top bottom,
+        "top": top,
+        "right": right,
+        "bottom": bottom,
+        "left": left,
+      ),
+      values: value-map(0, auto),
+    ),
+
+    // Visibility
+    // ==========
+    visibility: (
+      properties: ("*": visibility),
+      values: (
+        "visible": visible,
+        "invisible": hidden,
+      )
+    ),
+
+    // Z-index
+    // =======
+    z-index: (
+      prefix: "z",
+      properties: ("*": z-index),
+      values: value-map(0, 10, 20, 30, 40, 50, auto),
+    ),
+
+    background-color: (
+      prefix: "bg",
+      properties: ("*": background-color),
+      values: (
+        "blue": #0000FF,
+        "red": red,
+        "yellow": yellow,
+        "white": white,
+      ),
+      modifiers: hover,
+    ),
+
+
+    color: (
+      prefix: "color",
+      properties: (
+        "*": color,
+      ),
+      values: (
+        "blue": #0000FF,
+        "red": red,
+        "yellow": yellow,
+        "white": white,
+      ),
+      modifiers: hover,
     ),
 
     // Spacing

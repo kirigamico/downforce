@@ -1,3 +1,11 @@
 .test-component {
-  @include apply(mt-2 m-1 grid);
+  @include apply(mt-2 m-1);
+}
+
+.btn {
+  @include apply(bg-red color-white px-1 py-2);
+
+  &:hover {
+    @include apply(bg-blue);
+  }
 }
