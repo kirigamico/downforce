@@ -4,23 +4,25 @@
 //  Import this file before anything else
 
 // TODO: Import vendored normalize
+@import "accoutrement/sass/core";
+
 @import "lib/helpers";
 @import "lib/modifiers";
 @import "lib/engine";
 @import "lib/default-settings";
 
-// Combine settings
-$global-downforce-settings: build-settings();
-$global-node-list: build-utilities(map-get($global-downforce-settings, "utilities"));
-
-// Register generated utilities
-$global-class-nodes: ();
-
-@each $node in $global-node-list {
-  @if map-get($node, "type") == "class" {
-    $node-name: map-get($node, "name");
-    $global-class-nodes: map-merge($global-class-nodes, ($node-name: $node));
-  }
-}
+// // Combine settings
+// $global-downforce-settings: build-settings();
+// $global-node-list: build-utilities(map-get($global-downforce-settings, "utilities"));
+//
+// // Register generated utilities
+// $global-class-nodes: ();
+//
+// @each $node in $global-node-list {
+//   @if map-get($node, "type") == "class" {
+//     $node-name: map-get($node, "name");
+//     $global-class-nodes: map-merge($global-class-nodes, ($node-name: $node));
+//   }
+// }
 
 @import "lib/renderer";

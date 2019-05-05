@@ -1,0 +1,101 @@
+@mixin render($node-list) {
+  @each $node in $node-list {
+    $node-type: map-get($node, "type");
+    $node-name: map-get($node, "name");
+    $node-value: map-get($node, "value");
+
+    @if $node-type == "property" {
+      #{$node-name}: $node-value;
+    } @else if $node-type == "class" {
+      .#{$node-name} {
+        @include render($node-value);
+      }
+    } @else if $node-type == "media" {
+      @media #{$node-name} {
+        @include render($node-value);
+      }
+    }
+  }
+}
+
+@mixin utilities($master-node-list: $global-node-list) {
+  // Split out class nodes and media nodes
+  $class-node-list: [];
+  $media-node-list: [];
+
+  @each $node in $master-node-list {
+    $node-type: map-get($node, "type");
+
+    @if $node-type == "class" {
+      $class-node-list: append($class-node-list, $node);
+    } @else if $node-type == "media" {
+      $media-node-list: append($media-node-list, $node);
+    }
+  }
+
+  // Group media nodes by query
+  $media-nodes: ();
+
+  @each $node in $media-node-list {
+    $node-type: map-get($node, "type");
+    $query: map-get($node, "name");
+    $media-class-node-list: map-get($node, "value");
+
+    @if not map-has-key($media-nodes, $query) {
+      $media-nodes: map-merge($media-nodes, ($query: $media-class-node-list));
+    } @else {
+      $media-nodes: map-merge(
+        $media-nodes,
+        ($query: join(map-get($media-nodes, $query), $media-class-node-list))
+      );
+    }
+  }
+
+  $grouped-media-node-list: [];
+
+  @each $query, $media-class-node-list in $media-nodes {
+    $grouped-media-node-list: append(
+      $grouped-media-node-list,
+      (
+        "type": "media",
+        "name": $query,
+        "value": $media-class-node-list,
+      )
+    );
+  }
+
+  // Render the CSS
+  @include render($class-node-list);
+  @include render($grouped-media-node-list);
+}
+
+@mixin apply($utility-list) {
+  $property-node-list: [];
+
+  @each $utility in $utility-list {
+    $node: map-get($global-class-nodes, $utility);
+    @if $node == null {
+      @error "Utility '#{$utility}' does not exist";
+    }
+
+    $property-node-list: join($property-node-list, map-get($node, "value"));
+  }
+
+  @include render($property-node-list);
+}
+
+@mixin responsive($class-name) {
+  $all-breakpoints: map-get($global-downforce-settings, "breakpoints");
+
+  .#{$class-name} {
+    @content;
+  }
+
+  @each $key, $value in $all-breakpoints {
+    @media only screen and (min-width: #{$value}) {
+      .#{$key}\\:#{$class-name} {
+        @content;
+      }
+    }
+  }
+}

@@ -1,223 +1,218 @@
 //  Downforce Settings
 //  ------------------
 
-$downforce-settings: (
-  // Breakpoints
-  // -----------
-  breakpoints: (
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
+// Breakpoints
+// -----------
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+// Modifiers
+// ---------
+$modifiers: (
+  responsive: get-function("responsive-modifier"),
+  hover: get-function("hover-modifier"),
+);
+
+
+// Utilities
+// ---------
+$utilities: (
+  // Layout
+  // ------
+  // Display
+  // =======
+  display: (
+    properties: ("*": display),
+    values: value-map(
+      ("hidden": none),
+        block,
+        inline-block,
+        flex,
+        inline-flex,
+        inline,
+        table,
+        table-row,
+        table-cell,
+    ),
+    modifiers: responsive,
   ),
 
-  // Utilities
-  // ---------
-  utilities: (
-    // Layout
-    // ------
-    // Display
-    // =======
-    display: (
-      properties: (
-        "*": display,
-      ),
-      values: value-map(
-        ("hidden": none),
-          block,
-          inline-block,
-          flex,
-          inline-flex,
-          inline,
-          table,
-          table-row,
-          table-cell,
-      ),
-      modifiers: responsive,
-    ),
+  // Float
+  // ===== (TODO: Missing clearfix)
+  float: (
+    prefix: "float",
+    properties: ("*": float),
+    values: value-map(right, left, none),
+  ),
 
-    // Float
-    // ===== (TODO: Missing clearfix)
-    float: (
-      prefix: "float",
-      properties: ("*": float),
-      values: value-map(right, left, none),
-    ),
+  // Object fit
+  // ==========
+  object-fit: (
+    prefix: "object",
+    properties: ("*": object-fit),
+    values: value-map(contain, cover, fill, none, scale-down),
+  ),
 
-    // Object fit
-    // ==========
-    object-fit: (
-      prefix: "object",
-      properties: ("*": object-fit),
-      values: value-map(contain, cover, fill, none, scale-down),
-    ),
-
-    // Object position
-    // ===============
-    object-position: (
-      prefix: "object",
-      properties: ("*": object-position),
-      values: value-map(
-        top, right-top, right, right-bottom, bottom, left-bottom,
-        left, left-top, center,
-      ),
-    ),
-
-    // Overflow
-    // ========
-    overflow: (
-      prefix: "overflow",
-      properties: (
-        "*": overflow,
-        "-x": overflow-x,
-        "-y": overflow-y,
-      ),
-      values: value-map(auto, hidden, visible, scroll),
-    ),
-
-    // Position
-    // ========
-    position: (
-      properties: ("*": position),
-      values: value-map(static, fixed, absolute, relative, sticky),
-    ),
-
-    // Top Right Bottom Left
-    // =====================
-    top-right-bottom-left: (
-      properties: (
-        "inset": top right bottom left,
-        "inset-x": right left,
-        "inset-y": top bottom,
-        "top": top,
-        "right": right,
-        "bottom": bottom,
-        "left": left,
-      ),
-      values: value-map(0, auto),
-    ),
-
-    // Visibility
-    // ==========
-    visibility: (
-      properties: ("*": visibility),
-      values: (
-        "visible": visible,
-        "invisible": hidden,
-      )
-    ),
-
-    // Z-index
-    // =======
-    z-index: (
-      prefix: "z",
-      properties: ("*": z-index),
-      values: value-map(0, 10, 20, 30, 40, 50, auto),
-    ),
-
-    background-color: (
-      prefix: "bg",
-      properties: ("*": background-color),
-      values: (
-        "blue": #0000FF,
-        "red": red,
-        "yellow": yellow,
-        "white": white,
-      ),
-      modifiers: hover,
-    ),
-
-
-    color: (
-      prefix: "color",
-      properties: (
-        "*": color,
-      ),
-      values: (
-        "blue": #0000FF,
-        "red": red,
-        "yellow": yellow,
-        "white": white,
-      ),
-      modifiers: hover,
-    ),
-
-    // Spacing
-    // -------
-    // Padding
-    // =======
-    padding: (
-      prefix: "p",
-      properties: (
-        "*": padding,
-        "t": padding-top,
-        "r": padding-right,
-        "b": padding-bottom,
-        "l": padding-left,
-        "x": padding-left padding-right,
-        "y": padding-top padding-bottom,
-      ),
-      values: (
-        "1": 0.25em,
-        "2": 0.5em,
-        "3": 0.75em,
-        "4": 1em,
-        "5": 1.5em,
-      ),
-      modifiers: responsive,
-    ),
-
-    // Margin
-    // ======
-    margin: (
-      prefix: "m",
-      properties: (
-        "*": margin,
-        "t": margin-top,
-        "r": margin-right,
-        "b": margin-bottom,
-        "l": margin-left,
-        "x": margin-left margin-right,
-        "y": margin-top margin-bottom,
-      ),
-      values: (
-        "1": 0.25em,
-        "2": 0.5em,
-        "3": 0.75em,
-        "4": 1em,
-        "5": 1.5em,
-      ),
-      modifiers: responsive,
-    ),
-
-    // Negative margin
-    // ===============
-    negative-margin: (
-      prefix: "-m",
-      properties: (
-        "*": margin,
-        "t": margin-top,
-        "r": margin-right,
-        "b": margin-bottom,
-        "l": margin-left,
-        "x": margin-left margin-right,
-        "y": margin-top margin-bottom,
-      ),
-      values: (
-        "1": -0.25em,
-        "2": -0.5em,
-        "3": -0.75em,
-        "4": -1em,
-        "5": -1.5em,
-      ),
-      modifiers: responsive,
+  // Object position
+  // ===============
+  object-position: (
+    prefix: "object",
+    properties: ("*": object-position),
+    values: value-map(
+      top, right-top, right, right-bottom, bottom, left-bottom,
+      left, left-top, center,
     ),
   ),
 
-  // Modifiers
-  // ---------
-  modifiers: (
-    responsive: get-function("responsive-modifier"),
-    hover: get-function("hover-modifier"),
+  // Overflow
+  // ========
+  overflow: (
+    prefix: "overflow",
+    properties: (
+      "*": overflow,
+      "-x": overflow-x,
+      "-y": overflow-y,
+    ),
+    values: value-map(auto, hidden, visible, scroll),
+  ),
+
+  // Position
+  // ========
+  position: (
+    properties: ("*": position),
+    values: value-map(static, fixed, absolute, relative, sticky),
+  ),
+
+  // Top Right Bottom Left
+  // =====================
+  top-right-bottom-left: (
+    properties: (
+      "inset": top right bottom left,
+      "inset-x": right left,
+      "inset-y": top bottom,
+      "top": top,
+      "right": right,
+      "bottom": bottom,
+      "left": left,
+    ),
+    values: value-map(0, auto),
+  ),
+
+  // Visibility
+  // ==========
+  visibility: (
+    properties: ("*": visibility),
+    values: (
+      "visible": visible,
+      "invisible": hidden,
+    )
+  ),
+
+  // Z-index
+  // =======
+  z-index: (
+    prefix: "z",
+    properties: ("*": z-index),
+    values: value-map(0, 10, 20, 30, 40, 50, auto),
+  ),
+
+  background-color: (
+    prefix: "bg",
+    properties: ("*": background-color),
+    values: (
+      "blue": #00f,
+      "red": #f00,
+      "white": #fff,
+    ),
+    modifiers: hover,
+  ),
+
+
+  color: (
+    prefix: "color",
+    properties: (
+      "*": color,
+    ),
+    values: (
+      "blue": #00f,
+      "red": #f00,
+      "white": #fff,
+    ),
+    modifiers: hover,
+  ),
+
+  // Spacing
+  // -------
+  // Padding
+  // =======
+  padding: (
+    prefix: "p",
+    properties: (
+      "*": padding,
+      "t": padding-top,
+      "r": padding-right,
+      "b": padding-bottom,
+      "l": padding-left,
+      "x": padding-left padding-right,
+      "y": padding-top padding-bottom,
+    ),
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+    modifiers: responsive,
+  ),
+
+  // Margin
+  // ======
+  margin: (
+    prefix: "m",
+    properties: (
+      "*": margin,
+      "t": margin-top,
+      "r": margin-right,
+      "b": margin-bottom,
+      "l": margin-left,
+      "x": margin-left margin-right,
+      "y": margin-top margin-bottom,
+    ),
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+    modifiers: responsive,
+  ),
+
+  // Negative margin
+  // ===============
+  negative-margin: (
+    prefix: "-m",
+    properties: (
+      "*": margin,
+      "t": margin-top,
+      "r": margin-right,
+      "b": margin-bottom,
+      "l": margin-left,
+      "x": margin-left margin-right,
+      "y": margin-top margin-bottom,
+    ),
+    values: (
+      "1": -0.25em,
+      "2": -0.5em,
+      "3": -0.75em,
+      "4": -1em,
+      "5": -1.5em,
+    ),
+    modifiers: responsive,
   ),
 );

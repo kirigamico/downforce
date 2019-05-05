@@ -1,82 +1,85 @@
-@function build-utility($prefix, $property-map, $value-map, $modifiers: []) {
-  $node-list: [];
+@function build-utility($util-map) {
+  // Add defaults
+  $defaults: (prefix: "", modifiers: []);
+  $util-map: map-merge($defaults, $util-map);
 
-  // Build all base classes
-  @each $property-key, $property-names in $property-map {
+  $prefix: map-get($util-map, "prefix");
+  $prop-map: map-get($util-map, "properties");
+  $value-map: map-get($util-map, "values");
+  $mod-names: map-get($util-map, "modifiers");
+
+  // Error out when required map keys aren't defined
+  @if $prop-map == null {
+    $error: "Utility map is missing the `properties` key.";
+    @return _a_error($error, "build-utility");
+  }
+  @if $value-map == null {
+    $error: "Utility map is missing the `values` key.";
+    @return _a_error($error, "build-utility");
+  }
+
+  @if index($mod-names, "responsive") != null and index($mod-names, "responsive") != 1 {
+    $mod-names: _a_remove-nth($mod-names, index($mod-names, "responsive"));
+    $mod-names: join("responsive", $mod-names);
+  }
+
+  // Build utility
+  $util-tree: ();
+
+  @each $prop-key, $prop-name in $prop-map {
     @each $setting, $value in $value-map {
-      $property-values: [];
+      $props: ();
 
-      @each $property in $property-names {
-        $property-values: append(
-          $property-values,
-          (
-            "type": "property",
-            "name": $property,
-            "value": $value,
-          )
-        );
+      @each $prop in $prop-name {
+        $props: map-merge($props, ($prop: $value));
       }
 
       $name: "";
-      @if $prefix == "" and $property-key == "*"  {
-        $name: "#{$setting}";
-      } @else if $property-key == "*" {
-        $name: "#{$prefix}-#{$setting}";
+      @if $prefix == "" and $prop-key == "*"  {
+        $name: ".#{$setting}";
+      } @else if $prop-key == "*" {
+        $name: ".#{$prefix}-#{$setting}";
       } @else {
-        $name: "#{$prefix}#{$property-key}-#{$setting}";
+        $name: ".#{$prefix}#{$prop-key}-#{$setting}";
       }
 
-      $node-list: append(
-        $node-list,
-        (
-          "type": "class",
-          "name": $name,
-          "value": $property-values,
-        )
-      );
+      $util-tree: map-merge($util-tree, ($name: $props));
     }
   }
 
-  // Build modified classes
-  @each $name, $func in $modifiers {
-    @if $name != "responsive" {
-      $node-list: join($node-list, call($func, $node-list));
-    } @else {
-      $node-list: join($node-list, call($func, $node-list));
+  $modded-util-tree: ();
 
-      // Also apply responsive modifier to modifiers
-      @each $sub-name, $sub-func in $modifiers {
-        @if $sub-name != "responsive" {
-          $node-list: join($node-list, call($func, call($sub-func, $node-list)));
-        }
-      }
+  // Add modifiers
+  @each $mod-name in $mod-names {
+    $mod: map-get($modifiers, $mod-name);
+    @if $mod == null {
+      $error: "Modifier `#{$mod-name}` not found.";
+      @return _a_error($error, "build-utility");
     }
+    $modded-tree: call($mod, $util-tree);
+
+    // Also apply the responsive modifier to this modifier
+    @if index($mod-names, "responsive") != null and $mod-name != "responsive" {
+      $responsive-modifier: map-get($global-downforce-modifiers, "responsive");
+      $modded-tree: map-merge($modded-tree, call($responsive-modifier, $modded-tree));
+    }
+
+    // Use deep map merge to merge classes inside of media queries
+    $modded-util-tree: deep-map-merge($modded-util-tree, $modded-tree);
   }
 
-  @return $node-list;
+  @return organize-tree(map-merge($util-tree, $modded-util-tree));
 }
 
 @function build-utilities($utilities) {
-  $all-modifiers: map-get($global-downforce-settings, "modifiers");
-  $master-node-list: [];
+  $tree: ();
 
-  @each $utility-name, $utility-map in $utilities {
-    $prefix: map-get($utility-map, "prefix");
-    $property-map: map-get($utility-map, "properties");
-    $value-map: map-get($utility-map, "values");
-    $modifier-names: map-get($utility-map, "modifiers");
-
-    $modifiers: ();
-
-    @each $name in $modifier-names {
-      $modifiers: map-merge($modifiers, ($name: map-get($all-modifiers, $name)));
-    }
-
-    $node-list: build-utility($prefix, $property-map, $value-map, $modifiers);
-    $master-node-list: join($master-node-list, $node-list);
+  @each $util-map in map-values($utilities) {
+    // Use deep map merge to merge classes inside of media queries
+    $tree: deep-map-merge($tree, build-utility($util-map));
   }
 
-  @return $master-node-list;
+  @return organize-tree($tree);
 }
 
 @function build-settings() {

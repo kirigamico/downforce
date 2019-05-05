@@ -1,0 +1,131 @@
+@function build-utility($prefix, $property-map, $value-map, $modifiers: []) {
+  $node-list: [];
+
+  // Build all base classes
+  @each $property-key, $property-names in $property-map {
+    @each $setting, $value in $value-map {
+      $property-values: [];
+
+      @each $property in $property-names {
+        $property-values: append(
+          $property-values,
+          (
+            "type": "property",
+            "name": $property,
+            "value": $value,
+          )
+        );
+      }
+
+      $name: "";
+      @if $prefix == "" and $property-key == "*"  {
+        $name: "#{$setting}";
+      } @else if $property-key == "*" {
+        $name: "#{$prefix}-#{$setting}";
+      } @else {
+        $name: "#{$prefix}#{$property-key}-#{$setting}";
+      }
+
+      $node-list: append(
+        $node-list,
+        (
+          "type": "class",
+          "name": $name,
+          "value": $property-values,
+        )
+      );
+    }
+  }
+
+  // Build modified classes
+  @each $name, $func in $modifiers {
+    @if $name != "responsive" {
+      $node-list: join($node-list, call($func, $node-list));
+    } @else {
+      $node-list: join($node-list, call($func, $node-list));
+
+      // Also apply responsive modifier to modifiers
+      @each $sub-name, $sub-func in $modifiers {
+        @if $sub-name != "responsive" {
+          $node-list: join($node-list, call($func, call($sub-func, $node-list)));
+        }
+      }
+    }
+  }
+
+  @return $node-list;
+}
+
+@function build-utilities($utilities) {
+  $all-modifiers: map-get($global-downforce-settings, "modifiers");
+  $master-node-list: [];
+
+  @each $utility-name, $utility-map in $utilities {
+    $prefix: map-get($utility-map, "prefix");
+    $property-map: map-get($utility-map, "properties");
+    $value-map: map-get($utility-map, "values");
+    $modifier-names: map-get($utility-map, "modifiers");
+
+    $modifiers: ();
+
+    @each $name in $modifier-names {
+      $modifiers: map-merge($modifiers, ($name: map-get($all-modifiers, $name)));
+    }
+
+    $node-list: build-utility($prefix, $property-map, $value-map, $modifiers);
+    $master-node-list: join($master-node-list, $node-list);
+  }
+
+  @return $master-node-list;
+}
+
+@function build-settings() {
+  $settings: $downforce-settings;
+
+  @if global-variable-exists("breakpoints") {
+    $settings: map-merge($settings, (breakpoints: $breakpoints));
+  }
+
+  @if global-variable-exists("modifiers") {
+    $default-modifiers: map-get($settings, "modifiers");
+    $settings: map-merge(
+      $settings, (modifiers: map-merge($default-modifiers, $modifiers))
+    );
+  }
+
+  @if global-variable-exists("utilities") {
+    $merged-utilities: map-get($settings, "utilities");
+
+    @each $utility-name, $utility-map in $utilities {
+      @if type-of($utility-map) == "map" {
+        // Merge default utility settings with user's settings
+        $default-utility-map: map-get($merged-utilities, $utility-name);
+
+        $merged-utility-map: map-merge($default-utility-map, $utility-map);
+        $merged-utilities: map-merge($merged-utilities, ($utility-name: $merged-utility-map));
+      } @else if type-of($utility-map) == "bool" {
+        // Remove a utility if the user set it to false
+        @if not $utility-map {
+          $merged-utilities: map-remove($merged-utilities, $utility-name);
+        }
+      }
+    }
+
+    $settings: map-merge($settings, (utilities: $merged-utilities));
+  }
+
+  // Merge default keys to utilities
+  $final-utilities: map-get($settings, "utilities");
+  @each $utility-name, $utility-map in $final-utilities {
+    $template-utility: (
+      prefix: "",
+      modifiers: [],
+    );
+    $final-utility: map-merge($template-utility, $utility-map);
+    $final-utilities: map-merge($final-utilities, ($utility-name: $final-utility));
+  }
+
+  $settings: map-merge($settings, (utilities: $final-utilities));
+
+  @return $settings;
+}

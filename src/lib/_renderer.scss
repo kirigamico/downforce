@@ -1,85 +1,32 @@
-@mixin render($node-list) {
-  @each $node in $node-list {
-    $node-type: map-get($node, "type");
-    $node-name: map-get($node, "name");
-    $node-value: map-get($node, "value");
+@mixin render($tree) {
+  @each $key in map-keys($tree) {
+    $value: get-token($tree, $key);
 
-    @if $node-type == "property" {
-      #{$node-name}: $node-value;
-    } @else if $node-type == "class" {
-      .#{$node-name} {
-        @include render($node-value);
+    @if type-of($value) == "map" {
+      @if str-index($key, "@media") == 1 {
+        @media #{str-slice($key, 8)} {
+          @include render($value);
+        }
+      } @else {
+        #{$key} {
+          @include render($value);
+        }
       }
-    } @else if $node-type == "media" {
-      @media #{$node-name} {
-        @include render($node-value);
-      }
-    }
-  }
-}
-
-@mixin utilities($master-node-list: $global-node-list) {
-  // Split out class nodes and media nodes
-  $class-node-list: [];
-  $media-node-list: [];
-
-  @each $node in $master-node-list {
-    $node-type: map-get($node, "type");
-
-    @if $node-type == "class" {
-      $class-node-list: append($class-node-list, $node);
-    } @else if $node-type == "media" {
-      $media-node-list: append($media-node-list, $node);
-    }
-  }
-
-  // Group media nodes by query
-  $media-nodes: ();
-
-  @each $node in $media-node-list {
-    $node-type: map-get($node, "type");
-    $query: map-get($node, "name");
-    $media-class-node-list: map-get($node, "value");
-
-    @if not map-has-key($media-nodes, $query) {
-      $media-nodes: map-merge($media-nodes, ($query: $media-class-node-list));
     } @else {
-      $media-nodes: map-merge(
-        $media-nodes,
-        ($query: join(map-get($media-nodes, $query), $media-class-node-list))
-      );
+      #{unquote($key)}: $value;
     }
   }
-
-  $grouped-media-node-list: [];
-
-  @each $query, $media-class-node-list in $media-nodes {
-    $grouped-media-node-list: append(
-      $grouped-media-node-list,
-      (
-        "type": "media",
-        "name": $query,
-        "value": $media-class-node-list,
-      )
-    );
-  }
-
-  // Render the CSS
-  @include render($class-node-list);
-  @include render($grouped-media-node-list);
 }
 
-@mixin apply($utility-list) {
-  $property-node-list: [];
-
-  @each $utility in $utility-list {
-    $node: map-get($global-class-nodes, $utility);
-    @if $node == null {
-      @error "Utility '#{$utility}' does not exist";
+@mixin apply($util-list) {
+  @each $util-name in $util-list {
+    @each $key, $value in get-token($css-tree, ".#{$util-name}") {
+      #{unquote($key)}: $value;
     }
-
-    $property-node-list: join($property-node-list, map-get($node, "value"));
   }
+}
 
-  @include render($property-node-list);
+@mixin utilities {
+  $built: build-utilities($utilities);
+  @include render(build-utilities($utilities));
 }

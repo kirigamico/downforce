@@ -1,24 +1,30 @@
-@function base-modifier($node-list) {
-  @return $node-list;
-}
+@function responsive-modifier($util-tree) {
+  $media-tree: ();
 
-@function hover-modifier($node-list) {
-  @return affix($node-list, $prefix: "hover\\:", $suffix: ":hover");
-}
+  @each $key, $value in $breakpoints {
+    $media-util-tree: ();
 
-@function responsive-modifier($node-list) {
-  $all-breakpoints: map-get($global-downforce-settings, "breakpoints");
-  $media-queries: [];
+    @each $util-class in map-keys($util-tree) {
+      $modified-class: str-insert($util-class, "#{$key}\\:", 2);
+      $base-util-class: get-base-utility-class($util-class);
+      $media-util-tree: map-merge($media-util-tree, ($modified-class: "##{$base-util-class}"));
+    }
 
-  @each $key, $value in $all-breakpoints {
-    $new-node-list: affix($node-list, $prefix: "#{$key}\\:");
-
-    $media-queries: append($media-queries, (
-        "type": "media",
-        "name": "only screen and (min-width: #{$value})",
-        "value": $new-node-list,
-    ));
+    $query: "@media only screen and (min-width: #{$value})";
+    $media-tree: map-merge($media-tree, ($query: $media-util-tree));
   }
 
-  @return $media-queries;
+  @return $media-tree;
+}
+
+@function hover-modifier($util-tree) {
+  $hover-tree: ();
+
+  @each $util-class in map-keys($util-tree) {
+    $modified-class: str-insert($util-class, "hover\\:", 2);
+    $modified-class: str-insert($modified-class, ":hover", -1);
+    $hover-tree: map-merge($hover-tree, ($modified-class: "##{$util-class}"));
+  }
+
+  @return $hover-tree;
 }
