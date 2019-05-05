@@ -1,0 +1,41 @@
+@import "accoutrement/sass/core";
+
+@function new-responsive-modifier($util-tree) {
+
+}
+
+$new-downforce-modifiers: (
+  "responsive": get-function("new-responsive-modifier"),
+);
+
+@function new-build-utility($util-map) {
+  $prefix: map-get($utility-map, "prefix");
+  $property-map: map-get($utility-map, "properties");
+  $value-map: map-get($utility-map, "values");
+  $modifier-names: map-get($utility-map, "modifiers");
+
+  $util-tree: ();
+
+  @each $property-key, $property-names in $property-map {
+    @each $setting, $value in $value-map {
+      $props: ();
+
+      @each $property in $property-names {
+        $props: map-merge($props, ($property: $value));
+      }
+
+      $name: "";
+      @if $prefix == "" and $property-key == "*"  {
+        $name: ".#{$setting}";
+      } @else if $property-key == "*" {
+        $name: ".#{$prefix}-#{$setting}";
+      } @else {
+        $name: ".#{$prefix}#{$property-key}-#{$setting}";
+      }
+
+      $util-tree: map-merge($util-tree, ($name: $props))
+    }
+  }
+
+  @return $util-tree;
+}

@@ -4,6 +4,10 @@ options:
   formatter: stylish
   merge-default-rules: true
 rules:
+  class-name-format:
+    - 0
+  force-pseudo-nesting:
+    - 0
   indentation:
     - 2
     -
