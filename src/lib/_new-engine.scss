@@ -1,4 +1,5 @@
 @import "accoutrement/sass/core";
+@import "helpers";
 
 @function build-utility($util-map) {
   // Add defaults
@@ -41,4 +42,26 @@
   }
 
   @return $util-tree;
+}
+
+@function build-utilities($utilities) {
+  $tree: ();
+
+  @each $util-map in map-values($utilities) {
+    $tree: deep-map-merge($tree, build-utility($util-map));
+  }
+
+  // Move media queries to the very end
+  $normal-tree: ();
+  $media-tree: ();
+
+  @each $key, $value in $tree {
+    @if str-index($key, "@media") == 1 {
+      $media-tree: map-merge($media-tree, ($key: $value));
+    } @else {
+      $normal-tree: map-merge($normal-tree, ($key: $value));
+    }
+  }
+
+  @return map-merge($normal-tree, $media-tree);
 }

@@ -1,4 +1,5 @@
 @import "../src/lib/new-engine";
+@import "../src/lib/new-modifiers";
 
 @include describe("build-utility [function]") {
   @include it("builds the utility map") {
@@ -31,7 +32,7 @@
   }
 
   @include it("uses the `.{setting}` class name format") {
-    $display-util-map: (
+    $util-map: (
       properties: ("*": display),
       values: (
         "block": block,
@@ -44,11 +45,11 @@
       ".hidden": (display: none),
     );
 
-    @include assert-equal(build-utility($display-util-map), $expected);
+    @include assert-equal(build-utility($util-map), $expected);
   }
 
   @include it("uses the `.{prefix}-{setting}` class name format") {
-    $display-util-map: (
+    $util-map: (
       prefix: "m",
       properties: ("*": margin),
       values: (
@@ -62,11 +63,11 @@
       ".m-2": (margin: 2px),
     );
 
-    @include assert-equal(build-utility($display-util-map), $expected);
+    @include assert-equal(build-utility($util-map), $expected);
   }
 
   @include it("uses the `.{prefix}{property-key}-{setting}` class name format") {
-    $display-util-map: (
+    $util-map: (
       prefix: "m",
       properties: ("t": margin-top),
       values: (
@@ -80,6 +81,111 @@
       ".mt-2": (margin-top: 2px),
     );
 
-    @include assert-equal(build-utility($display-util-map), $expected);
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+}
+
+@include describe("build-utilities [function]") {
+  @include it("builds the utilities") {
+    $utilities: (
+      display: (
+        properties: ("*": display),
+        values: (
+          "block": block,
+          "hidden": none,
+        ),
+      ),
+      margin: (
+        prefix: "m",
+        properties: ("*": margin),
+        values: (
+          "1": 1px,
+          "2": 2px,
+        ),
+      ),
+    );
+
+    $expected: (
+      ".block": (display: block),
+      ".hidden": (display: none),
+      ".m-1": (margin: 1px),
+      ".m-2": (margin: 2px),
+    );
+
+    @include assert-equal(build-utilities($utilities), $expected);
+  }
+
+  @include it("groups media queries") {
+    $utilities: (
+      display: (
+        properties: ("*": display),
+        values: (
+          "block": block,
+          "hidden": none,
+        ),
+        modifiers: responsive,
+      ),
+      margin: (
+        prefix: "m",
+        properties: ("*": margin),
+        values: (
+          "1": 1px,
+          "2": 2px,
+        ),
+        modifiers: responsive,
+      ),
+    );
+
+    $expected: (
+      ".block": (display: block),
+      ".hidden": (display: none),
+      ".m-1": (margin: 1px),
+      ".m-2": (margin: 2px),
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:block": "#.block",
+        ".sm\\:hidden": "#.hidden",
+        ".sm\\:m-1": "#.m-1",
+        ".sm\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 768px)": (
+        ".md\\:block": "#.block",
+        ".md\\:hidden": "#.hidden",
+        ".md\\:m-1": "#.m-1",
+        ".md\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 992px)": (
+        ".lg\\:block": "#.block",
+        ".lg\\:hidden": "#.hidden",
+        ".lg\\:m-1": "#.m-1",
+        ".lg\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 1200px)": (
+        ".xl\\:block": "#.block",
+        ".xl\\:hidden": "#.hidden",
+        ".xl\\:m-1": "#.m-1",
+        ".xl\\:m-2": "#.m-2",
+      ),
+    );
+
+    $output: build-utilities($utilities);
+    @include assert-equal($output, $expected);
+
+    // Media queries should be last in the order
+    @include assert-equal(
+      nth(map-keys($output), -4),
+      "@media only screen and (min-width: 576px)"
+    );
+    @include assert-equal(
+      nth(map-keys($output), -3),
+      "@media only screen and (min-width: 768px)"
+    );
+    @include assert-equal(
+      nth(map-keys($output), -2),
+      "@media only screen and (min-width: 992px)"
+    );
+    @include assert-equal(
+      nth(map-keys($output), -1),
+      "@media only screen and (min-width: 1200px)"
+    );
   }
 }
