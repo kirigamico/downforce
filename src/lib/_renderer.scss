@@ -1,7 +1,5 @@
 @mixin render($tree) {
-  @each $key in map-keys($tree) {
-    $value: get-token($tree, $key);
-
+  @each $key, $value in $tree {
     @if type-of($value) == "map" {
       @if str-index($key, "@media") == 1 {
         @media #{str-slice($key, 8)} {
@@ -20,13 +18,12 @@
 
 @mixin apply($util-list) {
   @each $util-name in $util-list {
-    @each $key, $value in get-token($css-tree, ".#{$util-name}") {
+    @each $key, $value in map-get($global-downforce-tree, ".#{$util-name}") {
       #{unquote($key)}: $value;
     }
   }
 }
 
 @mixin utilities {
-  $built: build-utilities($utilities);
-  @include render(build-utilities($utilities));
+  @include render($global-downforce-tree);
 }

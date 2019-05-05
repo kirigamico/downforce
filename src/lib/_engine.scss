@@ -60,7 +60,7 @@
 
     // Also apply the responsive modifier to this modifier
     @if index($mod-names, "responsive") != null and $mod-name != "responsive" {
-      $responsive-modifier: map-get($global-downforce-modifiers, "responsive");
+      $responsive-modifier: map-get($modifiers, "responsive");
       $modded-tree: map-merge($modded-tree, call($responsive-modifier, $modded-tree));
     }
 

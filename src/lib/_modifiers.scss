@@ -4,10 +4,9 @@
   @each $key, $value in $breakpoints {
     $media-util-tree: ();
 
-    @each $util-class in map-keys($util-tree) {
+    @each $util-class, $util-map in $util-tree {
       $modified-class: str-insert($util-class, "#{$key}\\:", 2);
-      $base-util-class: get-base-utility-class($util-class);
-      $media-util-tree: map-merge($media-util-tree, ($modified-class: "##{$base-util-class}"));
+      $media-util-tree: map-merge($media-util-tree, ($modified-class: $util-map));
     }
 
     $query: "@media only screen and (min-width: #{$value})";
@@ -20,10 +19,10 @@
 @function hover-modifier($util-tree) {
   $hover-tree: ();
 
-  @each $util-class in map-keys($util-tree) {
+  @each $util-class, $util-map in $util-tree {
     $modified-class: str-insert($util-class, "hover\\:", 2);
     $modified-class: str-insert($modified-class, ":hover", -1);
-    $hover-tree: map-merge($hover-tree, ($modified-class: "##{$util-class}"));
+    $hover-tree: map-merge($hover-tree, ($modified-class: $util-map));
   }
 
   @return $hover-tree;
