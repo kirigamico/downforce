@@ -17,6 +17,19 @@
   @return $media-tree;
 }
 
+@function hover-modifier($util-tree) {
+  $hover-tree: ();
+
+  @each $util-class in map-keys($util-tree) {
+    $modified-class: str-insert($util-class, "hover\\:", 2);
+    $modified-class: str-insert($modified-class, ":hover", -1);
+    $hover-tree: map-merge($hover-tree, ($modified-class: "##{$util-class}"));
+  }
+
+  @return $hover-tree;
+}
+
 $global-downforce-modifiers: (
   responsive: get-function("responsive-modifier"),
+  hover: get-function("hover-modifier"),
 );

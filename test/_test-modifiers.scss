@@ -37,3 +37,26 @@
     @include assert-equal(build-utility($util-map), $expected);
   }
 }
+
+@include describe("hover modifier") {
+  @include it("adds the hover versions") {
+    $util-map: (
+      prefix: "color",
+      properties: ("*": color),
+      values: (
+        "red": #f00,
+        "blue": #00f,
+      ),
+      modifiers: hover,
+    );
+
+    $expected: (
+      ".color-red": (color: #f00),
+      ".color-blue": (color: #00f),
+      ".hover\\:color-red:hover": "#.color-red",
+      ".hover\\:color-blue:hover": "#.color-blue",
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+}

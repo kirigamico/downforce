@@ -6,6 +6,8 @@ options:
 rules:
   class-name-format:
     - 0
+  function-name-format:
+    - 0
   force-pseudo-nesting:
     - 0
   indentation:

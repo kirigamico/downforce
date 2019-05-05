@@ -6,13 +6,22 @@
   $defaults: (prefix: "", modifiers: []);
   $util-map: map-merge($defaults, $util-map);
 
-  // TODO: Add error when properties or values is not defined
-
   $prefix: map-get($util-map, "prefix");
   $prop-map: map-get($util-map, "properties");
   $value-map: map-get($util-map, "values");
   $mod-names: map-get($util-map, "modifiers");
 
+  // Error out when required map keys aren't defined
+  @if $prop-map == null {
+    $error: "Utility map is missing the `properties` key.";
+    @return _a_error($error, "build-utility");
+  }
+  @if $value-map == null {
+    $error: "Utility map is missing the `values` key.";
+    @return _a_error($error, "build-utility");
+  }
+
+  // Build utility
   $util-tree: ();
 
   @each $prop-key, $prop-name in $prop-map {
@@ -36,8 +45,13 @@
     }
   }
 
+  // Add modifiers
   @each $mod-name in $mod-names {
     $mod: map-get($global-downforce-modifiers, $mod-name);
+    @if $mod == null {
+      $error: "Modifier `#{$mod-name}` not found.";
+      @return _a_error($error, "build-utility");
+    }
     $util-tree: map-merge($util-tree, call($mod, $util-tree));
   }
 
