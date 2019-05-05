@@ -1,3 +1,5 @@
+@import "helpers";
+
 @function responsive-modifier($util-tree) {
   $breakpoints: $global-downforce-breakpoints;
   $media-tree: ();
@@ -7,7 +9,8 @@
 
     @each $util-class in map-keys($util-tree) {
       $modified-class: str-insert($util-class, "#{$key}\\:", 2);
-      $media-util-tree: map-merge($media-util-tree, ($modified-class: "##{$util-class}"));
+      $base-util-class: get-base-utility-class($util-class);
+      $media-util-tree: map-merge($media-util-tree, ($modified-class: "##{$base-util-class}"));
     }
 
     $query: "@media only screen and (min-width: #{$value})";

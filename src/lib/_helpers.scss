@@ -49,3 +49,29 @@
 
   @return $value-map;
 }
+
+@function get-base-utility-class($util-class) {
+  $parts: _a_split($util-class, ":");
+
+  @if length($parts) > 0 {
+    @return ".#{nth(_a_split($util-class, ':'), -2)}";
+  }
+
+  @return $util-class;
+}
+
+@function organize-tree($tree) {
+  // Moves the media queries to the end of the tree
+  $normal-tree: ();
+  $media-tree: ();
+
+  @each $key, $value in $tree {
+    @if str-index($key, "@media") == 1 {
+      $media-tree: map-merge($media-tree, ($key: $value));
+    } @else {
+      $normal-tree: map-merge($normal-tree, ($key: $value));
+    }
+  }
+
+  @return map-merge($normal-tree, $media-tree);
+}
