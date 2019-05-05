@@ -1,0 +1,39 @@
+@import "../src/lib/new-modifiers";
+@import "../src/lib/new-engine";
+
+@include describe("responsive modifier") {
+  @include it("adds the responsive versions") {
+    $util-map: (
+      prefix: "m",
+      properties: ("*": margin),
+      values: (
+        "1": 1px,
+        "2": 2px,
+      ),
+      modifiers: responsive,
+    );
+
+    $expected: (
+      ".m-1": (margin: 1px),
+      ".m-2": (margin: 2px),
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:m-1": "#.m-1",
+        ".sm\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 768px)": (
+        ".md\\:m-1": "#.m-1",
+        ".md\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 992px)": (
+        ".lg\\:m-1": "#.m-1",
+        ".lg\\:m-2": "#.m-2",
+      ),
+      "@media only screen and (min-width: 1200px)": (
+        ".xl\\:m-1": "#.m-1",
+        ".xl\\:m-2": "#.m-2",
+      ),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+}

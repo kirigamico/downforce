@@ -1,0 +1,22 @@
+@function responsive-modifier($util-tree) {
+  $breakpoints: $global-downforce-breakpoints;
+  $media-tree: ();
+
+  @each $key, $value in $breakpoints {
+    $media-util-tree: ();
+
+    @each $util-class in map-keys($util-tree) {
+      $modified-class: str-insert($util-class, "#{$key}\\:", 2);
+      $media-util-tree: map-merge($media-util-tree, ($modified-class: "##{$util-class}"));
+    }
+
+    $query: "@media only screen and (min-width: #{$value})";
+    $media-tree: map-merge($media-tree, ($query: $media-util-tree));
+  }
+
+  @return $media-tree;
+}
+
+$global-downforce-modifiers: (
+  responsive: get-function("responsive-modifier"),
+);

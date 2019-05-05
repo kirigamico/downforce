@@ -1,40 +1,43 @@
 @import "accoutrement/sass/core";
 
-@function new-responsive-modifier($util-tree) {
+@function build-utility($util-map) {
+  // Add defaults
+  $defaults: (prefix: "", modifiers: []);
+  $util-map: map-merge($defaults, $util-map);
 
-}
+  // TODO: Add error when properties or values is not defined
 
-$new-downforce-modifiers: (
-  "responsive": get-function("new-responsive-modifier"),
-);
-
-@function new-build-utility($util-map) {
-  $prefix: map-get($utility-map, "prefix");
-  $property-map: map-get($utility-map, "properties");
-  $value-map: map-get($utility-map, "values");
-  $modifier-names: map-get($utility-map, "modifiers");
+  $prefix: map-get($util-map, "prefix");
+  $prop-map: map-get($util-map, "properties");
+  $value-map: map-get($util-map, "values");
+  $mod-names: map-get($util-map, "modifiers");
 
   $util-tree: ();
 
-  @each $property-key, $property-names in $property-map {
+  @each $prop-key, $prop-name in $prop-map {
     @each $setting, $value in $value-map {
       $props: ();
 
-      @each $property in $property-names {
-        $props: map-merge($props, ($property: $value));
+      @each $prop in $prop-name {
+        $props: map-merge($props, ($prop: $value));
       }
 
       $name: "";
-      @if $prefix == "" and $property-key == "*"  {
+      @if $prefix == "" and $prop-key == "*"  {
         $name: ".#{$setting}";
-      } @else if $property-key == "*" {
+      } @else if $prop-key == "*" {
         $name: ".#{$prefix}-#{$setting}";
       } @else {
-        $name: ".#{$prefix}#{$property-key}-#{$setting}";
+        $name: ".#{$prefix}#{$prop-key}-#{$setting}";
       }
 
-      $util-tree: map-merge($util-tree, ($name: $props))
+      $util-tree: map-merge($util-tree, ($name: $props));
     }
+  }
+
+  @each $mod-name in $mod-names {
+    $mod: map-get($global-downforce-modifiers, $mod-name);
+    $util-tree: map-merge($util-tree, call($mod, $util-tree));
   }
 
   @return $util-tree;

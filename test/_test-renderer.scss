@@ -73,4 +73,28 @@
       }
     }
   }
+
+  @include it("renders media queries") {
+    $tree: (
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:m-1": (
+          "margin": 1px,
+        ),
+      ),
+    );
+
+    @include assert {
+      @include output {
+        @include render($tree);
+      }
+
+      @include expect {
+        @media only screen and (min-width: 576px) {
+          .sm\:m-1 {
+            margin: 1px;
+          }
+        }
+      }
+    }
+  }
 }
