@@ -1,13 +1,12 @@
 @import "true";
 
-// Global test variables
-$global-downforce-breakpoints: (
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-);
-
+// Dependencies
+@import "accoutrement/sass/core";
+@import "../src/lib/helpers";
+@import "../src/lib/modifiers";
+@import "../src/lib/engine";
+@import "../src/lib/default-settings";
+@import "../src/lib/renderer";
 
 // Tests
 @import "test-engine";

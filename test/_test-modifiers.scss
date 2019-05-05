@@ -1,6 +1,3 @@
-@import "../src/lib/new-modifiers";
-@import "../src/lib/new-engine";
-
 @include describe("responsive modifier") {
   @include it("adds the responsive versions") {
     $util-map: (
@@ -17,20 +14,20 @@
       ".m-1": (margin: 1px),
       ".m-2": (margin: 2px),
       "@media only screen and (min-width: 576px)": (
-        ".sm\\:m-1": "#.m-1",
-        ".sm\\:m-2": "#.m-2",
+        ".sm\\:m-1": (margin: 1px),
+        ".sm\\:m-2": (margin: 2px),
       ),
       "@media only screen and (min-width: 768px)": (
-        ".md\\:m-1": "#.m-1",
-        ".md\\:m-2": "#.m-2",
+        ".md\\:m-1": (margin: 1px),
+        ".md\\:m-2": (margin: 2px),
       ),
       "@media only screen and (min-width: 992px)": (
-        ".lg\\:m-1": "#.m-1",
-        ".lg\\:m-2": "#.m-2",
+        ".lg\\:m-1": (margin: 1px),
+        ".lg\\:m-2": (margin: 2px),
       ),
       "@media only screen and (min-width: 1200px)": (
-        ".xl\\:m-1": "#.m-1",
-        ".xl\\:m-2": "#.m-2",
+        ".xl\\:m-1": (margin: 1px),
+        ".xl\\:m-2": (margin: 2px),
       ),
     );
 
@@ -53,8 +50,8 @@
     $expected: (
       ".color-red": (color: #f00),
       ".color-blue": (color: #00f),
-      ".hover\\:color-red:hover": "#.color-red",
-      ".hover\\:color-blue:hover": "#.color-blue",
+      ".hover\\:color-red:hover": (color: #f00),
+      ".hover\\:color-blue:hover": (color: #00f),
     );
 
     @include assert-equal(build-utility($util-map), $expected);
@@ -76,31 +73,31 @@
     $expected: (
       ".color-red": (color: #f00),
       ".color-blue": (color: #00f),
-      ".hover\\:color-red:hover": "#.color-red",
-      ".hover\\:color-blue:hover": "#.color-blue",
+      ".hover\\:color-red:hover": (color: #f00),
+      ".hover\\:color-blue:hover": (color: #00f),
       "@media only screen and (min-width: 576px)": (
-        ".sm\\:color-red": "#.color-red",
-        ".sm\\:color-blue": "#.color-blue",
-        ".sm\\:hover\\:color-red:hover": "#.color-red",
-        ".sm\\:hover\\:color-blue:hover": "#.color-blue",
+        ".sm\\:color-red": (color: #f00),
+        ".sm\\:color-blue": (color: #00f),
+        ".sm\\:hover\\:color-red:hover": (color: #f00),
+        ".sm\\:hover\\:color-blue:hover": (color: #00f),
       ),
       "@media only screen and (min-width: 768px)": (
-        ".md\\:color-red": "#.color-red",
-        ".md\\:color-blue": "#.color-blue",
-        ".md\\:hover\\:color-red:hover": "#.color-red",
-        ".md\\:hover\\:color-blue:hover": "#.color-blue",
+        ".md\\:color-red": (color: #f00),
+        ".md\\:color-blue": (color: #00f),
+        ".md\\:hover\\:color-red:hover": (color: #f00),
+        ".md\\:hover\\:color-blue:hover": (color: #00f),
       ),
       "@media only screen and (min-width: 992px)": (
-        ".lg\\:color-red": "#.color-red",
-        ".lg\\:color-blue": "#.color-blue",
-        ".lg\\:hover\\:color-red:hover": "#.color-red",
-        ".lg\\:hover\\:color-blue:hover": "#.color-blue",
+        ".lg\\:color-red": (color: #f00),
+        ".lg\\:color-blue": (color: #00f),
+        ".lg\\:hover\\:color-red:hover": (color: #f00),
+        ".lg\\:hover\\:color-blue:hover": (color: #00f),
       ),
       "@media only screen and (min-width: 1200px)": (
-        ".xl\\:color-red": "#.color-red",
-        ".xl\\:color-blue": "#.color-blue",
-        ".xl\\:hover\\:color-red:hover": "#.color-red",
-        ".xl\\:hover\\:color-blue:hover": "#.color-blue",
+        ".xl\\:color-red": (color: #f00),
+        ".xl\\:color-blue": (color: #00f),
+        ".xl\\:hover\\:color-red:hover": (color: #f00),
+        ".xl\\:hover\\:color-blue:hover": (color: #00f),
       ),
     );
 
