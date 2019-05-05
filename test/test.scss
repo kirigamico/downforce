@@ -1,0 +1,7 @@
+@import "true";
+
+@include describe("Something") {
+  @include it("Is true") {
+    @include assert-true(true);
+  }
+}
