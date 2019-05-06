@@ -9,12 +9,12 @@
   $mod-names: map-get($util-map, "modifiers");
 
   // Error out when required map keys aren't defined
-  @if $prop-map == null {
-    $error: "Utility map is missing the `properties` key.";
+  @if $prop-map == null or length($prop-map) == 0 {
+    $error: "Utilities must have `properties`.";
     @return _a_error($error, "build-utility");
   }
-  @if $value-map == null {
-    $error: "Utility map is missing the `values` key.";
+  @if $value-map == null or length($value-map) == 0 {
+    $error: "Utilities must have `values`.";
     @return _a_error($error, "build-utility");
   }
 

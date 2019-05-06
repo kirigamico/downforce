@@ -5,7 +5,7 @@
     @include register-modifier("foo", "some-modifier");
 
     $expected: ("foo": get-function("some-modifier"));
-    @include assert-equal($_df_modifiers, $expected);
+    @include assert-equal(map-get($_df_modifiers, "foo"), get-function("some-modifier"));
   }
 }
 

@@ -80,6 +80,22 @@
 
     @include assert-equal(build-utility($util-map), $expected);
   }
+
+  @include it("errors out when `properties` is not defined") {
+    $util-map: ();
+
+    $output: build-utility($util-map);
+    $expected: "ERROR [build-utility] Utilities must have `properties`.";
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("errors out when `values` is not defined") {
+    $util-map: (properties: ("*": display));
+
+    $output: build-utility($util-map);
+    $expected: "ERROR [build-utility] Utilities must have `values`.";
+    @include assert-equal($output, $expected);
+  }
 }
 
 @include describe("build-utilities [function]") {
