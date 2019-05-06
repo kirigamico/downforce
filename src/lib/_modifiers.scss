@@ -1,7 +1,7 @@
 @function responsive-modifier($util-tree) {
   $media-tree: ();
 
-  @each $key, $value in $breakpoints {
+  @each $key, $value in $df-breakpoints {
     $media-util-tree: ();
 
     @each $util-class, $util-map in $util-tree {

@@ -1,18 +1,25 @@
 //  Downforce Settings
 //  ------------------
 
+// Settings
+// ------------------
+$df-settings: (
+  "global-prefix": "",
+  "separator": ":",
+) !default;
+
 // Breakpoints
 // -----------
-$breakpoints: (
+$df-breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
   xl: 1200px,
-);
+) !default;
 
 // Utilities
 // ---------
-$utilities: (
+$df-default-utilities: (
   // Layout
   // ------
   // Display
@@ -207,4 +214,4 @@ $utilities: (
     ),
     modifiers: responsive,
   ),
-);
+) !default;

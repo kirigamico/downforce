@@ -77,46 +77,20 @@
   @return organize-tree($tree);
 }
 
-@function build-settings() {
-  $settings: $downforce-settings;
+@function merge-utility-maps($defaults-map, $override-map) {
+  $merged-map: $defaults-map;
 
-  @if global-variable-exists("breakpoints") {
-    $settings: map-merge($settings, (breakpoints: $breakpoints));
-  }
-
-  @if global-variable-exists("utilities") {
-    $merged-utilities: map-get($settings, "utilities");
-
-    @each $utility-name, $utility-map in $utilities {
-      @if type-of($utility-map) == "map" {
-        // Merge default utility settings with user's settings
-        $default-utility-map: map-get($merged-utilities, $utility-name);
-
-        $merged-utility-map: map-merge($default-utility-map, $utility-map);
-        $merged-utilities: map-merge($merged-utilities, ($utility-name: $merged-utility-map));
-      } @else if type-of($utility-map) == "bool" {
-        // Remove a utility if the user set it to false
-        @if not $utility-map {
-          $merged-utilities: map-remove($merged-utilities, $utility-name);
-        }
-      }
+  @each $util-name, $override-map in $override-map {
+    @if type-of($override-map) == "map" {
+      // Merge default utility settings with user's settings
+      $default-util-map: map-get($merged-map, $util-name);
+      $merged-util-map: map-merge($default-util-map, $override-map);
+      $merged-map: map-merge($merged-map, ($util-name: $merged-util-map));
+    } @else if type-of($override-map) == "bool" and $override-map == false {
+      // Remove a utility if the user set it to false
+      $merged-map: map-remove($merged-map, $util-name);
     }
-
-    $settings: map-merge($settings, (utilities: $merged-utilities));
   }
 
-  // Merge default keys to utilities
-  $final-utilities: map-get($settings, "utilities");
-  @each $utility-name, $utility-map in $final-utilities {
-    $template-utility: (
-      prefix: "",
-      modifiers: [],
-    );
-    $final-utility: map-merge($template-utility, $utility-map);
-    $final-utilities: map-merge($final-utilities, ($utility-name: $final-utility));
-  }
-
-  $settings: map-merge($settings, (utilities: $final-utilities));
-
-  @return $settings;
+  @return $merged-map;
 }

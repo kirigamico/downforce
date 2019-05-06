@@ -202,3 +202,53 @@
     );
   }
 }
+
+@include describe("merge-utility-maps [function]") {
+  @include it("selectively merges the utility maps") {
+    $utils-1: (
+      display: (
+        properties: ("*": display),
+        values: value-map(block, flex, none),
+        modifiers: responsive hover,
+      ),
+    );
+
+    $utils-2: (
+      display: (
+        values: value-map(inline, block, grid),
+        modifiers: hover
+      ),
+    );
+
+    $expected: (
+      display: (
+        properties: ("*": display),
+        values: value-map(inline, block, grid),
+        modifiers: hover,
+      ),
+    );
+
+    $output: merge-utility-maps($utils-1, $utils-2);
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("disables utilities") {
+    $utils-1: (
+      display: (
+        properties: ("*": display),
+        values: value-map(block, flex, none),
+        modifiers: responsive hover,
+      ),
+      float: (
+        properties: ("*": float),
+        values: value-map(right, left, none),
+      ),
+    );
+
+    $utils-2: (float: false);
+
+    $expected: (display: map-get($utils-1, "display"));
+    $output: merge-utility-maps($utils-1, $utils-2);
+    @include assert-equal($output, $expected);
+  }
+}

@@ -18,12 +18,12 @@
 
 @mixin apply($util-list) {
   @each $util-name in $util-list {
-    @each $key, $value in map-get($global-downforce-tree, ".#{$util-name}") {
+    @each $key, $value in map-get($_df_utility_tree, ".#{$util-name}") {
       #{unquote($key)}: $value;
     }
   }
 }
 
 @mixin utilities {
-  @include render($global-downforce-tree);
+  @include render($_df_utility_tree);
 }
