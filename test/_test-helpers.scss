@@ -74,3 +74,38 @@
     @include assert-equal($output, $expected);
   }
 }
+
+@include describe("organize-tree [function]") {
+  @include it("moves media queries to the end of the tree") {
+    $tree: (
+      ".foo": (
+        "margin": 1px,
+      ),
+      "@media only screen and (min-width: 576px)": (
+        ".foo": (
+          "margin": 2px,
+        ),
+      ),
+      ".bar": (
+        "padding": 1px,
+      ),
+    );
+
+    $expected: (
+      ".foo": (
+        "margin": 1px,
+      ),
+      ".bar": (
+        "padding": 1px,
+      ),
+      "@media only screen and (min-width: 576px)": (
+        ".foo": (
+          "margin": 2px,
+        ),
+      ),
+    );
+
+    $output: organize-tree($tree);
+    @include assert-equal($output, $expected);
+  }
+}
