@@ -1,3 +1,50 @@
+@include describe("deep-map-merge [function]") {
+  @include it("deeply merges maps") {
+    $map1: (
+      a: 1,
+      b: 2,
+      c: (
+        d: 3,
+        e: 4,
+        f: (
+          g: 5,
+          h: 6,
+        ),
+      ),
+    );
+
+    $map2: (
+      c: (
+        f: (
+          h: foo,
+          i: bar,
+        ),
+        baz: baz,
+      ),
+      xyz: 123,
+    );
+
+    $expected: (
+      a: 1,
+      b: 2,
+      c: (
+        d: 3,
+        e: 4,
+        f: (
+          g: 5,
+          h: foo,
+          i: bar,
+        ),
+        baz: baz,
+      ),
+      xyz: 123,
+    );
+
+    $output: deep-map-merge($map1, $map2);
+    @include assert-equal($output, $expected);
+  }
+}
+
 @include describe("value-map [function]") {
   @include it("generates the value map") {
     $expected: (
