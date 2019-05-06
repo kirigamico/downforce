@@ -1,0 +1,29 @@
+@include describe("value-map [function]") {
+  @include it("generates the value map") {
+    $expected: (
+      "block": block,
+      "inline-block": inline-block,
+      "flex": flex,
+    );
+    $output: value-map(block, inline-block, flex);
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("accepts name overrides") {
+    $expected: (
+      "hidden": none,
+      "visible": block,
+      "inline-block": inline-block,
+      "flex": flex,
+    );
+    $output: value-map(
+      (
+        "hidden": none,
+        "visible": block,
+      ),
+        inline-block,
+        flex,
+    );
+    @include assert-equal($output, $expected);
+  }
+}

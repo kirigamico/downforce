@@ -1,17 +1,3 @@
-@function affix($node-list, $prefix: "", $suffix: "") {
-  $new-node-list: [];
-
-  @each $node in $node-list {
-    $node-name: map-get($node, "name");
-    $new-node-list: append(
-      $new-node-list,
-      map-merge($node, ("name": "#{$prefix}#{$node-name}#{$suffix}"))
-    );
-  }
-
-  @return $new-node-list;
-}
-
 @function deep-map-merge($map1, $map2) {
   $merged-map: $map1;
 
@@ -29,13 +15,6 @@
   @return $merged-map;
 }
 
-@function map-fetch($map, $keys) {
-  @each $key in $keys {
-    $map: map-get($map, $key);
-  }
-  @return $map;
-}
-
 @function value-map($values...) {
   $value-map: ();
 
@@ -48,16 +27,6 @@
   }
 
   @return $value-map;
-}
-
-@function get-base-utility-class($util-class) {
-  $parts: _a_split($util-class, ":");
-
-  @if length($parts) > 0 {
-    @return ".#{nth(_a_split($util-class, ':'), -2)}";
-  }
-
-  @return $util-class;
 }
 
 @function organize-tree($tree) {

@@ -13,6 +13,7 @@ $_a_error-output-override: true;
 
 // Tests
 @import "test-engine";
+@import "test-helpers";
 @import "test-modifiers";
 @import "test-register";
 @import "test-renderer";
