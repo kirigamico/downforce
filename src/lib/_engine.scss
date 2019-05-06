@@ -51,17 +51,12 @@
 
   // Add modifiers
   @each $mod-name in $mod-names {
-    $mod: map-get($modifiers, $mod-name);
-    @if $mod == null {
-      $error: "Modifier `#{$mod-name}` not found.";
-      @return _a_error($error, "build-utility");
-    }
-    $modded-tree: call($mod, $util-tree);
+    $modded-tree: call(get-modifier($mod-name), $util-tree);
 
     // Also apply the responsive modifier to this modifier
     @if index($mod-names, "responsive") != null and $mod-name != "responsive" {
-      $responsive-modifier: map-get($modifiers, "responsive");
-      $modded-tree: map-merge($modded-tree, call($responsive-modifier, $modded-tree));
+      $responsive-mod: get-modifier("responsive");
+      $modded-tree: map-merge($modded-tree, call($responsive-mod, $modded-tree));
     }
 
     // Use deep map merge to merge classes inside of media queries
@@ -87,13 +82,6 @@
 
   @if global-variable-exists("breakpoints") {
     $settings: map-merge($settings, (breakpoints: $breakpoints));
-  }
-
-  @if global-variable-exists("modifiers") {
-    $default-modifiers: map-get($settings, "modifiers");
-    $settings: map-merge(
-      $settings, (modifiers: map-merge($default-modifiers, $modifiers))
-    );
   }
 
   @if global-variable-exists("utilities") {

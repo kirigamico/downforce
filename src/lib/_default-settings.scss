@@ -10,14 +10,6 @@ $breakpoints: (
   xl: 1200px,
 );
 
-// Modifiers
-// ---------
-$modifiers: (
-  responsive: get-function("responsive-modifier"),
-  hover: get-function("hover-modifier"),
-);
-
-
 // Utilities
 // ---------
 $utilities: (

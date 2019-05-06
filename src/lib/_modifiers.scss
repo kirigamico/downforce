@@ -15,6 +15,7 @@
 
   @return $media-tree;
 }
+@include register-modifier("responsive", "responsive-modifier");
 
 @function hover-modifier($util-tree) {
   $hover-tree: ();
@@ -27,3 +28,4 @@
 
   @return $hover-tree;
 }
+@include register-modifier("hover", "hover-modifier");

@@ -1,8 +1,11 @@
 @import "true";
 
+$_a_error-output-override: true;
+
 // Dependencies
 @import "accoutrement/sass/core";
 @import "../src/lib/helpers";
+@import "../src/lib/register";
 @import "../src/lib/modifiers";
 @import "../src/lib/engine";
 @import "../src/lib/default-settings";
@@ -11,4 +14,5 @@
 // Tests
 @import "test-engine";
 @import "test-modifiers";
+@import "test-register";
 @import "test-renderer";

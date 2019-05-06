@@ -1,0 +1,26 @@
+@function some-modifier () {@return 123};
+
+@include describe("register-modifer [function]") {
+  @include it("registers the modifier") {
+    @include register-modifier("foo", "some-modifier");
+
+    $expected: ("foo": get-function("some-modifier"));
+    @include assert-equal($_df_modifiers, $expected);
+  }
+}
+
+@include describe("get-modifier [function]") {
+  @include it("returns the modifier") {
+    @include register-modifier("foo", "some-modifier");
+
+    $output: get-modifier("foo");
+    $expected: get-function("some-modifier");
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("errors out when trying to get an unknown modifier") {
+    $output: get-modifier("bar");
+    $expected: "ERROR [get-modifier] Modifier `bar` not found.";
+    @include assert-equal($output, $expected);
+  }
+}

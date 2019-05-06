@@ -1,0 +1,19 @@
+$_df_modifiers: ();
+
+@mixin register-modifier($mod-name, $mod-func-name) {
+  @if not map-has-key($_df_modifiers, $mod-name) {
+    $modifiers: ($mod-name: get-function($mod-func-name));
+    $_df_modifiers: map-merge($_df_modifiers, $modifiers) !global;
+  }
+}
+
+@function get-modifier($mod-name) {
+  $mod-func: map-get($_df_modifiers, $mod-name);
+
+  @if $mod-func == null {
+    $error: "Modifier `#{$mod-name}` not found.";
+    @return _a_error($error, "get-modifier");
+  }
+
+  @return $mod-func;
+}
