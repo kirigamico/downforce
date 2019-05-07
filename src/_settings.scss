@@ -1,11 +1,130 @@
+@import "lib/helpers";
+
 $df-utilities: (
-  display: (),
-  padding: (),
+  // Layout
+  // ------
+  // Display
+  // =======
+  display: (
+    values: value-map(
+      ("hidden": none),
+        block,
+        inline-block,
+        flex,
+        inline-flex,
+        inline,
+        table,
+        table-row,
+        table-cell,
+    ),
+  ),
+
+  // Float
+  // ===== (TODO: Missing clearfix)
+  float: (
+    values: value-map(right, left, none),
+  ),
+
+  // Object fit
+  // ==========
+  object-fit: (
+    values: value-map(contain, cover, fill, none, scale-down),
+  ),
+
+  // Object position
+  // ===============
+  object-position: (
+    values: value-map(
+      top, right-top, right, right-bottom, bottom, left-bottom,
+      left, left-top, center,
+    ),
+  ),
+
+  // Overflow
+  // ========
+  overflow: (
+    values: value-map(auto, hidden, visible, scroll),
+  ),
+
+  // Position
+  // ========
+  position: (
+    values: value-map(static, fixed, absolute, relative, sticky),
+  ),
+
+  // Top Right Bottom Left
+  // =====================
+  top-right-bottom-left: (
+    values: value-map(0, auto),
+  ),
+
+  // Visibility
+  // ==========
+  visibility: (
+    values: (
+      "visible": visible,
+      "invisible": hidden,
+    ),
+  ),
+
+  // Z-index
+  // =======
+  z-index: (
+    values: value-map(0, 10, 20, 30, 40, 50, auto),
+  ),
+
+  background-color: (
+    values: (
+      "blue": #00f,
+      "red": #f00,
+      "white": #fff,
+    ),
+  ),
+
+
+  color: (
+    values: (
+      "blue": #00f,
+      "red": #f00,
+      "white": #fff,
+    ),
+  ),
+
+  // Spacing
+  // -------
+  // Padding
+  // =======
+  padding: (
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+  ),
+
+  // Margin
+  // ======
   margin: (
     values: (
-      "1": 20px,
-      "2": 30px,
-    )
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
   ),
-  negative-margin: (),
+
+  // Negative margin
+  // ===============
+  negative-margin: (
+    values: (
+      "1": -0.25em,
+      "2": -0.5em,
+      "3": -0.75em,
+      "4": -1em,
+      "5": -1.5em,
+    ),
+  ),
 );
