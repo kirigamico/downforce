@@ -109,3 +109,34 @@
     @include assert-equal($output, $expected);
   }
 }
+
+@include describe("color-shades [function]") {
+  @include it("generates 7 shades of a color") {
+    $color: #1abc9c;
+
+    $expected: (
+      "teal-darkest": mix(#000, $color, 50%),
+      "teal-darker": mix(#000, $color, 70%),
+      "teal-dark": mix(#000, $color, 90%),
+      "teal": $color,
+      "teal-light": mix(#fff, $color, 90%),
+      "teal-lighter": mix(#fff, $color, 70%),
+      "teal-lightest": mix(#fff, $color, 50%),
+    );
+
+    $output: color-shades("teal", $color);
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("map-multi-merge") {
+  @include it("merges multiple maps") {
+    $map1: (a: a);
+    $map2: (b: b);
+    $map3: (c: c);
+
+    $expected: (a: a, b: b, c: c);
+    $output: map-multi-merge($map1, $map2, $map3);
+    @include assert-equal($output, $expected);
+  }
+}

@@ -44,3 +44,27 @@
 
   @return map-merge($normal-tree, $media-tree);
 }
+
+@function color-shades($name, $color) {
+  $shades: (
+    "#{$name}-darkest": mix(#000, $color, 60%),
+    "#{$name}-darker": mix(#000, $color, 35%),
+    "#{$name}-dark": mix(#000, $color, 15%),
+    $name: $color,
+    "#{$name}-light": mix(#fff, $color, 10%),
+    "#{$name}-lighter": mix(#fff, $color, 30%),
+    "#{$name}-lightest": mix(#fff, $color, 50%),
+  );
+
+  @return $shades;
+}
+
+@function map-multi-merge($maps...) {
+  $merged: ();
+
+  @each $map in $maps {
+    $merged: map-merge($merged, $map);
+  }
+
+  @return $merged;
+}
