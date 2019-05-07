@@ -83,7 +83,7 @@
       $default-util-map: map-get($merged-map, $util-name);
 
       @if $default-util-map == null {
-        $error: "Trying to override non-existent utililty `display`.";
+        $error: "Trying to override non-existent utililty `#{$util-name}`.";
         @return _a_error($error, "merge-utility-maps");
       }
 
