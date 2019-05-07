@@ -115,13 +115,13 @@
     $color: #1abc9c;
 
     $expected: (
-      "teal-darkest": mix(#000, $color, 50%),
-      "teal-darker": mix(#000, $color, 70%),
-      "teal-dark": mix(#000, $color, 90%),
+      "teal-darkest": mix(#000, $color, 60%),
+      "teal-darker": mix(#000, $color, 35%),
+      "teal-dark": mix(#000, $color, 15%),
       "teal": $color,
-      "teal-light": mix(#fff, $color, 90%),
-      "teal-lighter": mix(#fff, $color, 70%),
-      "teal-lightest": mix(#fff, $color, 50%),
+      "teal-light": mix(#fff, $color, 15%),
+      "teal-lighter": mix(#fff, $color, 35%),
+      "teal-lightest": mix(#fff, $color, 60%),
     );
 
     $output: color-shades("teal", $color);

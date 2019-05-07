@@ -9,9 +9,16 @@
 @import "lib/helpers";
 @import "lib/register";
 @import "lib/modifiers";
+
+@import "lib/utilities/backgrounds";
+@import "lib/utilities/flexbox";
+@import "lib/utilities/layout";
+@import "lib/utilities/spacing";
+@import "lib/utilities/typography";
+
 @import "lib/engine";
 @import "lib/default-settings";
 
-$_df_utility_tree: build-utilities(merge-utility-maps($df-default-utilities, $df-utilities));
+$_df_utility_tree: build-utilities($df-utilities);
 
 @import "lib/renderer";

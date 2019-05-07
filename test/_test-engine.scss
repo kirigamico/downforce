@@ -99,23 +99,32 @@
 }
 
 @include describe("build-utilities [function]") {
+  $_df_utility_maps: () !global;
+
+  @include register-utility-map(
+    "display", (
+      properties: ("*": display),
+      values: (
+        "block": block,
+        "hidden": none,
+      ),
+    )
+  );
+  @include register-utility-map(
+    "margin", (
+      prefix: "m",
+      properties: ("*": margin),
+      values: (
+        "1": 1px,
+        "2": 2px,
+      ),
+    )
+  );
+
   @include it("builds the utilities") {
     $utilities: (
-      display: (
-        properties: ("*": display),
-        values: (
-          "block": block,
-          "hidden": none,
-        ),
-      ),
-      margin: (
-        prefix: "m",
-        properties: ("*": margin),
-        values: (
-          "1": 1px,
-          "2": 2px,
-        ),
-      ),
+      display: (),
+      margin: (),
     );
 
     $expected: (
@@ -131,20 +140,9 @@
   @include it("groups media queries") {
     $utilities: (
       display: (
-        properties: ("*": display),
-        values: (
-          "block": block,
-          "hidden": none,
-        ),
         modifiers: responsive,
       ),
       margin: (
-        prefix: "m",
-        properties: ("*": margin),
-        values: (
-          "1": 1px,
-          "2": 2px,
-        ),
         modifiers: responsive,
       ),
     );
@@ -249,6 +247,19 @@
 
     $expected: (display: map-get($utils-1, "display"));
     $output: merge-utility-maps($utils-1, $utils-2);
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("errors when trying to override a non-registered utility") {
+    $util-maps: ();
+    $util-overrides: (
+      display: (
+        values: ("block": block),
+      ),
+    );
+
+    $expected: "ERROR [merge-utility-maps] Trying to override non-existent utililty `display`.";
+    $output: merge-utility-maps($util-maps, $util-overrides);
     @include assert-equal($output, $expected);
   }
 }

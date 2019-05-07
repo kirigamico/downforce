@@ -1,4 +1,5 @@
 $_df_modifiers: ();
+$_df_utility_maps: ();
 
 @mixin register-modifier($mod-name, $mod-func-name) {
   @if not map-has-key($_df_modifiers, $mod-name) {
@@ -16,4 +17,10 @@ $_df_modifiers: ();
   }
 
   @return $mod-func;
+}
+
+@mixin register-utility-map($util-name, $util-map) {
+  @if not map-has-key($_df_utility_maps, $util-name) {
+    $_df_utility_maps: map-merge($_df_utility_maps, ($util-name: $util-map)) !global;
+  }
 }

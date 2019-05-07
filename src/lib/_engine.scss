@@ -66,17 +66,6 @@
   @return organize-tree(map-merge($util-tree, $modded-util-tree));
 }
 
-@function build-utilities($utilities) {
-  $tree: ();
-
-  @each $util-map in map-values($utilities) {
-    // Use deep map merge to merge classes inside of media queries
-    $tree: deep-map-merge($tree, build-utility($util-map));
-  }
-
-  @return organize-tree($tree);
-}
-
 @function merge-utility-maps($defaults-map, $override-map) {
   $merged-map: $defaults-map;
 
@@ -84,6 +73,12 @@
     @if type-of($override-map) == "map" {
       // Merge default utility settings with user's settings
       $default-util-map: map-get($merged-map, $util-name);
+
+      @if $default-util-map == null {
+        $error: "Trying to override non-existent utililty `display`.";
+        @return _a_error($error, "merge-utility-maps");
+      }
+
       $merged-util-map: map-merge($default-util-map, $override-map);
       $merged-map: map-merge($merged-map, ($util-name: $merged-util-map));
     } @else if type-of($override-map) == "bool" and $override-map == false {
@@ -93,4 +88,16 @@
   }
 
   @return $merged-map;
+}
+
+@function build-utilities($utilities) {
+  $util-maps: merge-utility-maps($_df_utility_maps, $utilities);
+  $tree: ();
+
+  @each $util-map in map-values($util-maps) {
+    // Use deep map merge to merge classes inside of media queries
+    $tree: deep-map-merge($tree, build-utility($util-map));
+  }
+
+  @return organize-tree($tree);
 }

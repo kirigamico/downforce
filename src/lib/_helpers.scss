@@ -51,9 +51,9 @@
     "#{$name}-darker": mix(#000, $color, 35%),
     "#{$name}-dark": mix(#000, $color, 15%),
     $name: $color,
-    "#{$name}-light": mix(#fff, $color, 10%),
-    "#{$name}-lighter": mix(#fff, $color, 30%),
-    "#{$name}-lightest": mix(#fff, $color, 50%),
+    "#{$name}-light": mix(#fff, $color, 15%),
+    "#{$name}-lighter": mix(#fff, $color, 35%),
+    "#{$name}-lightest": mix(#fff, $color, 60%),
   );
 
   @return $shades;

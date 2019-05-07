@@ -1,0 +1,13 @@
+// Typography
+// ----------
+
+@include register-utility-map(
+  "color", (
+    prefix: "color",
+    properties: (
+      "*": color,
+    ),
+    values: $df-colors,
+    modifiers: responsive hover,
+  )
+);

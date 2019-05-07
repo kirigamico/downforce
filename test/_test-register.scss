@@ -1,6 +1,6 @@
 @function some-modifier () {@return 123};
 
-@include describe("register-modifer [function]") {
+@include describe("register-modifer [mixin]") {
   @include it("registers the modifier") {
     @include register-modifier("foo", "some-modifier");
 
@@ -22,5 +22,21 @@
     $output: get-modifier("bar");
     $expected: "ERROR [get-modifier] Modifier `bar` not found.";
     @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("register-utility-map [mixin]") {
+  @include it("registers the utility map") {
+    $_df_utility_maps: () !global;
+
+    $util-map: (
+      prefix: "m",
+      properties: ("*": margin),
+      values: ("1": 1px),
+      modifiers: hover,
+    );
+    @include register-utility-map("margin", $util-map);
+
+    @include assert-equal(map-get($_df_utility_maps, "margin"), $util-map);
   }
 }

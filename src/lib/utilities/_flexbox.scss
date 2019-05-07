@@ -1,0 +1,114 @@
+// Flexbox
+// -------
+
+@include register-utility-map(
+  "flex", (
+    prefix: "flex",
+    properties: ("*": flex),
+    values: (
+      "1": 1 1 0%,
+      "auto": 1 1 auto,
+      "initial": 0 1 auto,
+      "none": none,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "flex-grow", (
+    prefix: "flex",
+    properties: ("*": flex-grow),
+    values: (
+      "grow": 1,
+      "grow-0": 0,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "flex-shrink", (
+    prefix: "flex",
+    properties: ("*": flex-shrink),
+    values: (
+      "shrink": 1,
+      "shrink-0": 0,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "flex-direction", (
+    prefix: "flex",
+    properties: ("*": flex-direction),
+    values: (
+      "row": row,
+      "row-reverse": row-reverse,
+      "col": column,
+      "col-reverse": column-reverse,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "flex-wrap", (
+    prefix: "flex",
+    properties: ("*": flex-wrap),
+    values: value-map(nowrap, wrap, wrap-reverse),
+  )
+);
+
+@include register-utility-map(
+  "align-items", (
+    prefix: "items",
+    properties: ("*": align-items),
+    values: (
+      "stretch": stretch,
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "baseline": baseline,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "align-content", (
+    prefix: "content",
+    properties: ("*": align-content),
+    values: (
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "between": space-between,
+      "around": space-around,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "align-self", (
+    prefix: "self",
+    properties: ("*": align-self),
+    values: (
+      "auto": auto,
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "stretch": stretch,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "justify-content", (
+    prefix: "justify",
+    properties: ("*": justify-content),
+    values: (
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "between": space-between,
+      "around": space-around,
+    ),
+  )
+);

@@ -1,0 +1,11 @@
+// Backgrounds
+// -----------
+
+@include register-utility-map(
+  "background-color", (
+    prefix: "bg",
+    properties: ("*": background-color),
+    values: $df-colors,
+    modifiers: hover,
+  )
+);
