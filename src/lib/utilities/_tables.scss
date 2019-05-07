@@ -1,0 +1,18 @@
+// Tables
+// ------
+
+@include register-utility-map(
+  "border-collapse", (
+    prefix: "border",
+    properties: ("*": border-collapse),
+    values: value-map(collapse, separate),
+  )
+);
+
+@include register-utility-map(
+  "table-layout", (
+    prefix: "table",
+    properties: ("*": table-layout),
+    values: value-map(auto, fixed),
+  )
+);
