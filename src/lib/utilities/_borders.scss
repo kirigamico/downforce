@@ -1,0 +1,39 @@
+// Borders
+// -------
+// color style width radius
+
+@include register-utility-map(
+  "border-color", (
+    prefix: "border",
+    properties: ("*": border-color),
+    values: $df-colors,
+  )
+);
+
+@include register-utility-map(
+  "border-style", (
+    prefix: "border",
+    properties: ("*": border-style),
+    values: value-map(solid, dashed, dotted, none),
+  )
+);
+
+@include register-utility-map(
+  "width", (
+    prefix: "border",
+    properties: (
+      "*": border-width,
+      "-t": border-top-width,
+      "-r": border-right-width,
+      "-b": border-bottom-width,
+      "-l": border-left-width,
+    ),
+    values: (
+      "": 1px,
+      "0": 0,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+    ),
+  )
+);

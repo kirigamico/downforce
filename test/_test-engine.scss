@@ -43,6 +43,27 @@
     );
 
     @include assert-equal(build-utility($util-map), $expected);
+
+    $util-map: (
+      prefix: "border",
+      properties: (
+        "*": border-width,
+        "-t": border-top-width,
+      ),
+      values: (
+        "": 1px,
+        "0": 0,
+      ),
+    );
+
+    $expected: (
+      ".border": (border-width: 1px),
+      ".border-t": (border-top-width: 1px),
+      ".border-0": (border-width: 0),
+      ".border-t-0": (border-top-width: 0),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
   }
 
   @include it("uses the `.{prefix}-{setting}` class name format") {

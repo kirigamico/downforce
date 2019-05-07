@@ -38,9 +38,17 @@
       @if $prefix == "" and $prop-key == "*"  {
         $name: ".#{$setting}";
       } @else if $prop-key == "*" {
-        $name: ".#{$prefix}-#{$setting}";
+        @if $setting == "" {
+          $name: ".#{$prefix}";
+        } @else {
+          $name: ".#{$prefix}-#{$setting}";
+        }
       } @else {
-        $name: ".#{$prefix}#{$prop-key}-#{$setting}";
+        @if $setting == "" {
+          $name: ".#{$prefix}#{$prop-key}";
+        } @else {
+          $name: ".#{$prefix}#{$prop-key}-#{$setting}";
+        }
       }
 
       $util-tree: map-merge($util-tree, ($name: $props));
