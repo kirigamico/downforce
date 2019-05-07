@@ -1,0 +1,55 @@
+// Interactivity
+// -------------
+
+@include register-utility-map(
+  "appearance", (
+    prefix: "appearance",
+    properties: ("*": appearance),
+    values: value-map(none),
+  )
+);
+
+@include register-utility-map(
+  "cursor", (
+    prefix: "cursor",
+    properties: ("*": cursor),
+    values: value-map(auto, default, pointer, wait, move, not-allowed),
+  )
+);
+
+@include register-utility-map(
+  "outline", (
+    prefix: "outline",
+    properties: ("*": outline),
+    values: ("none": 0),
+  )
+);
+
+@include register-utility-map(
+  "pointer-events", (
+    prefix: "pointer-events",
+    properties: ("*": pointer-events),
+    values: value-map(none, auto),
+  )
+);
+
+@include register-utility-map(
+  "resize", (
+    prefix: "resize",
+    properties: ("*": resize),
+    values: (
+      "": both,
+      "none": none,
+      "y": vertical,
+      "x": horizontal,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "user-select", (
+    prefix: "select",
+    properties: ("*": user-select),
+    values: value-map(none, text),
+  )
+);
