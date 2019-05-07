@@ -1,5 +1,12 @@
 // Backgrounds
 // -----------
+@include register-utility-map(
+  "background-attachment", (
+    prefix: "bg",
+    properties: ("*": background-attachment),
+    values: value-map(fixed, local, scroll),
+  )
+);
 
 @include register-utility-map(
   "background-color", (
@@ -7,5 +14,39 @@
     properties: ("*": background-color),
     values: $df-colors,
     modifiers: hover,
+  )
+);
+
+@include register-utility-map(
+  "background-position", (
+    prefix: "bg",
+    properties: ("*": background-position),
+    values: (
+      "bottom": bottom,
+      "center": center,
+      "left": left,
+      "left-bottom": left bottom,
+      "left-top": left top,
+      "right": right,
+      "right-bottom": right bottom,
+      "right-top": right top,
+      "top": top,
+    )
+  )
+);
+
+@include register-utility-map(
+  "background-repeat", (
+    prefix: "bg",
+    properties: ("*": background-repeat),
+    values: value-map(repeat, no-repeat, repeat-x, repeat-y),
+  )
+);
+
+@include register-utility-map(
+  "background-size", (
+    prefix: "bg",
+    properties: ("*": background-size),
+    values: value-map(auto, cover, contain),
   )
 );
