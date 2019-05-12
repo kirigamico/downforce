@@ -102,6 +102,50 @@
     @include assert-equal(build-utility($util-map), $expected);
   }
 
+  @include it("uses the correct separator") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("separator": "-")) !global;
+
+    $util-map: (
+      prefix: "color",
+      properties: ("*": color),
+      values: ("red": #f00),
+      modifiers: hover,
+    );
+
+    $expected: (
+      ".color-red": ("color": #f00),
+      ".hover-color-red:hover": ("color": #f00),
+    );
+
+    $output: build-utility($util-map);
+
+    @include assert-equal($output, $expected);
+
+    $df-settings: $orig-settings !global;
+  }
+
+  @include it("adds the global prefix") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("prefix": "df-")) !global;
+
+    $util-map: (
+      prefix: "color",
+      properties: ("*": color),
+      values: ("red": #f00),
+    );
+
+    $expected: (
+      ".df-color-red": ("color": #f00),
+    );
+
+    $output: build-utility($util-map);
+
+    @include assert-equal($output, $expected);
+
+    $df-settings: $orig-settings !global;
+  }
+
   @include it("errors out when `properties` is not defined") {
     $util-map: ();
 

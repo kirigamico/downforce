@@ -20,8 +20,19 @@ $_df_utility_tree: organize-tree($_df_utility_tree);
 
 @mixin apply($util-list) {
   @each $util-name in $util-list {
-    @each $key, $value in map-get($_df_utility_tree, ".#{$util-name}") {
-      #{unquote($key)}: $value;
+    $class-name: "";
+    @if map-has-key($_df_utility_tree, ".#{$util-name}") {
+      $class-name: ".#{$util-name}";
+    } @else if map-has-key($_df_utility_tree, ".#{setting("prefix")}#{$util-name}") {
+      $class-name: ".#{setting("prefix")}#{$util-name}";
+    }
+
+    @if $class-name != "" {
+      @each $key, $value in map-get($_df_utility_tree, $class-name) {
+        #{unquote($key)}: $value;
+      }
+    } @else {
+      @include _a_error("Utility `#{$util-name}` does not exist.", "apply");
     }
   }
 }

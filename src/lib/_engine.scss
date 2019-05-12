@@ -34,20 +34,21 @@
         $props: map-merge($props, ($prop: $value));
       }
 
+      $global-prefix: setting("prefix");
       $name: "";
       @if $prefix == "" and $prop-key == "*"  {
-        $name: ".#{$setting}";
+        $name: ".#{$global-prefix}#{$setting}";
       } @else if $prop-key == "*" {
         @if $setting == "" {
-          $name: ".#{$prefix}";
+          $name: ".#{$global-prefix}#{$prefix}";
         } @else {
-          $name: ".#{$prefix}-#{$setting}";
+          $name: ".#{$global-prefix}#{$prefix}-#{$setting}";
         }
       } @else {
         @if $setting == "" {
-          $name: ".#{$prefix}#{$prop-key}";
+          $name: ".#{$global-prefix}#{$prefix}#{$prop-key}";
         } @else {
-          $name: ".#{$prefix}#{$prop-key}-#{$setting}";
+          $name: ".#{$global-prefix}#{$prefix}#{$prop-key}-#{$setting}";
         }
       }
 

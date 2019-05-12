@@ -4,8 +4,8 @@
 // Settings
 // ------------------
 $df-settings: (
-  "global-prefix": "",
-  "separator": ":",
+  "prefix": "",
+  "separator": "\\:",
 ) !default;
 
 // Breakpoints
@@ -38,3 +38,13 @@ $df-font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monosp
 // Utility overrides
 // -----------------
 $df-utilities: () !default;
+
+// Getters
+// -------
+@function setting($key) {
+  @return map-get($df-settings, $key);
+}
+
+@function color($key) {
+  @return map-get($df-colors, $key);
+}

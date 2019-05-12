@@ -5,7 +5,7 @@
     $media-util-tree: ();
 
     @each $util-class, $util-map in $util-tree {
-      $modified-class: str-insert($util-class, "#{$key}\\:", 2);
+      $modified-class: str-insert($util-class, "#{$key}#{setting('separator')}", 2);
       $media-util-tree: map-merge($media-util-tree, ($modified-class: $util-map));
     }
 
@@ -21,7 +21,7 @@
   $hover-tree: ();
 
   @each $util-class, $util-map in $util-tree {
-    $modified-class: str-insert($util-class, "hover\\:", 2);
+    $modified-class: str-insert($util-class, "hover#{setting('separator')}", 2);
     $modified-class: str-insert($modified-class, ":hover", -1);
     $hover-tree: map-merge($hover-tree, ($modified-class: $util-map));
   }
