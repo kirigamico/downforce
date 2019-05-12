@@ -30,6 +30,15 @@
     values: value-map(right, left, none),
   )
 );
+@include register-utility(
+  "clearfix", (
+    ".clearfix::after": (
+      "content": "",
+      "display": table,
+      "clear": both,
+    ),
+  )
+);
 
 // Object fit
 // ==========
