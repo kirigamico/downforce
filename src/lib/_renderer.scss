@@ -1,3 +1,5 @@
+$_df_utility_tree: organize-tree($_df_utility_tree);
+
 @mixin render($tree) {
   @each $key, $value in $tree {
     @if type-of($value) == "map" {

@@ -26,8 +26,8 @@
 }
 
 @include describe("register-utility-map [mixin]") {
-  @include it("registers the utility map") {
-    $_df_utility_maps: () !global;
+  @include it("adds the utility to the global utility tree") {
+    $_df_utility_tree: () !global;
 
     $util-map: (
       prefix: "m",
@@ -37,6 +37,31 @@
     );
     @include register-utility-map("margin", $util-map);
 
-    @include assert-equal(map-get($_df_utility_maps, "margin"), $util-map);
+    $expected: (
+      ".m-1": (
+        "margin": 1px,
+      ),
+      ".hover\\:m-1:hover": (
+        "margin": 1px,
+      ),
+    );
+
+    @include assert-equal($_df_utility_tree, $expected);
+  }
+}
+
+@include describe("register-utility [mixin]") {
+  @include it("adds the utility to the global utility tree") {
+    $_df_utility_tree: () !global;
+    $util-tree: (
+      ".foo": (
+        "margin": 1px,
+        "padding": 1px,
+      ),
+    );
+
+    @include register-utility("foo", $util-tree);
+
+    @include assert-equal($_df_utility_tree, $util-tree);
   }
 }

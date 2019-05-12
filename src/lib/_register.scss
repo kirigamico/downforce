@@ -1,5 +1,5 @@
 $_df_modifiers: ();
-$_df_utility_maps: ();
+$_df_utility_tree: ();
 
 @mixin register-modifier($mod-name, $mod-func-name) {
   @if not map-has-key($_df_modifiers, $mod-name) {
@@ -19,8 +19,22 @@ $_df_utility_maps: ();
   @return $mod-func;
 }
 
+@mixin register-utility($util-name, $util-tree) {
+  $override-map: map-get($df-utilities, $util-name);
+
+  // Do not build the utility if it has been disabled
+  @if type-of($override-map) != "bool" or $override-map != false {
+    $_df_utility_tree: deep-map-merge($_df_utility_tree, $util-tree) !global;
+  }
+}
+
 @mixin register-utility-map($util-name, $util-map) {
-  @if not map-has-key($_df_utility_maps, $util-name) {
-    $_df_utility_maps: map-merge($_df_utility_maps, ($util-name: $util-map)) !global;
+  $override-map: map-get($df-utilities, $util-name);
+
+  @if type-of($override-map) != "bool" or $override-map != false {
+    @if $override-map != null {
+      $util-map: map-merge($util-map, $override-map);
+    }
+    $_df_utility_tree: deep-map-merge($_df_utility_tree, build-utility($util-map)) !global;
   }
 }

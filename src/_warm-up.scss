@@ -6,10 +6,14 @@
 // TODO: Import vendored normalize
 @import "accoutrement/sass/core";
 
+// Core
 @import "lib/helpers";
+@import "lib/default-settings";
+@import "lib/engine";
 @import "lib/register";
 @import "lib/modifiers";
 
+// Utilities
 @import "lib/utilities/backgrounds";
 @import "lib/utilities/borders";
 @import "lib/utilities/flexbox";
@@ -21,9 +25,5 @@
 @import "lib/utilities/tables";
 @import "lib/utilities/typography";
 
-@import "lib/engine";
-@import "lib/default-settings";
-
-$_df_utility_tree: build-utilities($df-utilities);
-
+// Renderer
 @import "lib/renderer";

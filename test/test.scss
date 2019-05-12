@@ -4,11 +4,15 @@ $_a_error-output-override: true;
 
 // Dependencies
 @import "accoutrement/sass/core";
+
+// Core
 @import "../src/lib/helpers";
+@import "../src/lib/default-settings";
+@import "../src/lib/engine";
 @import "../src/lib/register";
 @import "../src/lib/modifiers";
-@import "../src/lib/engine";
-@import "../src/lib/default-settings";
+
+// Renderer
 @import "../src/lib/renderer";
 
 // Tests
