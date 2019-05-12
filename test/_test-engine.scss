@@ -118,3 +118,45 @@
     @include assert-equal($output, $expected);
   }
 }
+
+@include describe("apply-modifiers [function]") {
+  @include it("adds modified versions of the utility") {
+    $util-tree: (
+      ".color-red": (color: #f00),
+      ".color-blue": (color: #00f),
+    );
+
+    $expected: (
+      ".hover\\:color-red:hover": (color: #f00),
+      ".hover\\:color-blue:hover": (color: #00f),
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:color-red": (color: #f00),
+        ".sm\\:color-blue": (color: #00f),
+        ".sm\\:hover\\:color-red:hover": (color: #f00),
+        ".sm\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 768px)": (
+        ".md\\:color-red": (color: #f00),
+        ".md\\:color-blue": (color: #00f),
+        ".md\\:hover\\:color-red:hover": (color: #f00),
+        ".md\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 992px)": (
+        ".lg\\:color-red": (color: #f00),
+        ".lg\\:color-blue": (color: #00f),
+        ".lg\\:hover\\:color-red:hover": (color: #f00),
+        ".lg\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 1200px)": (
+        ".xl\\:color-red": (color: #f00),
+        ".xl\\:color-blue": (color: #00f),
+        ".xl\\:hover\\:color-red:hover": (color: #f00),
+        ".xl\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+    );
+
+    $output: apply-modifiers($util-tree, responsive hover);
+
+    @include assert-equal($output, $expected);
+  }
+}

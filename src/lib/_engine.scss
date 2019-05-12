@@ -55,9 +55,15 @@
     }
   }
 
+  // Add modifiers
+  $modded-util-tree: apply-modifiers($util-tree, $mod-names);
+
+  @return map-merge($util-tree, $modded-util-tree);
+}
+
+@function apply-modifiers($util-tree, $mod-names) {
   $modded-util-tree: ();
 
-  // Add modifiers
   @each $mod-name in $mod-names {
     $modded-tree: call(get-modifier($mod-name), $util-tree);
 
@@ -71,5 +77,5 @@
     $modded-util-tree: deep-map-merge($modded-util-tree, $modded-tree);
   }
 
-  @return map-merge($util-tree, $modded-util-tree);
+  @return $modded-util-tree;
 }
