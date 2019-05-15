@@ -4,7 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,12 @@
       ],
       "no-new": 0
     }
+  },
+  "dependencies": {
+    "accoutrement": "^2.1.1",
+    "mocha": "^6.1.4",
+    "node-sass": "^4.12.0",
+    "normalize-scss": "^7.0.1",
+    "sass-true": "^4.0.0"
   }
 }

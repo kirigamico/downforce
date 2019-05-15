@@ -1,0 +1,31 @@
+@function responsive-modifier($util-tree) {
+  $media-tree: ();
+
+  @each $key, $value in $df-breakpoints {
+    $media-util-tree: ();
+
+    @each $util-class, $util-map in $util-tree {
+      $modified-class: str-insert($util-class, "#{$key}#{setting('separator')}", 2);
+      $media-util-tree: map-merge($media-util-tree, ($modified-class: $util-map));
+    }
+
+    $query: "@media only screen and (min-width: #{$value})";
+    $media-tree: map-merge($media-tree, ($query: $media-util-tree));
+  }
+
+  @return $media-tree;
+}
+@include register-modifier("responsive", "responsive-modifier");
+
+@function hover-modifier($util-tree) {
+  $hover-tree: ();
+
+  @each $util-class, $util-map in $util-tree {
+    $modified-class: str-insert($util-class, "hover#{setting('separator')}", 2);
+    $modified-class: str-insert($modified-class, ":hover", -1);
+    $hover-tree: map-merge($hover-tree, ($modified-class: $util-map));
+  }
+
+  @return $hover-tree;
+}
+@include register-modifier("hover", "hover-modifier");

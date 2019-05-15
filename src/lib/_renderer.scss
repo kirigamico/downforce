@@ -1,0 +1,42 @@
+$_df_utility_tree: organize-tree($_df_utility_tree);
+
+@mixin render($tree) {
+  @each $key, $value in $tree {
+    @if type-of($value) == "map" {
+      @if str-index($key, "@media") == 1 {
+        @media #{str-slice($key, 8)} {
+          @include render($value);
+        }
+      } @else {
+        #{$key} {
+          @include render($value);
+        }
+      }
+    } @else {
+      #{unquote($key)}: $value;
+    }
+  }
+}
+
+@mixin apply($util-list) {
+  @each $util-name in $util-list {
+    $class-name: "";
+    @if map-has-key($_df_utility_tree, ".#{$util-name}") {
+      $class-name: ".#{$util-name}";
+    } @else if map-has-key($_df_utility_tree, ".#{setting("prefix")}#{$util-name}") {
+      $class-name: ".#{setting("prefix")}#{$util-name}";
+    }
+
+    @if $class-name != "" {
+      @each $key, $value in map-get($_df_utility_tree, $class-name) {
+        #{unquote($key)}: $value;
+      }
+    } @else {
+      @include _a_error("Utility `#{$util-name}` does not exist.", "apply");
+    }
+  }
+}
+
+@mixin utilities {
+  @include render($_df_utility_tree);
+}

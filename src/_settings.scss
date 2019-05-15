@@ -1,0 +1,270 @@
+@import "lib/helpers";
+
+// Colors
+// ------
+$df-colors: (
+  "teal-darkest": #0a4b3e,
+  "teal-darker": #117a65,
+  "teal-dark": #16a085,
+  "teal": #1abc9c,
+  "teal-light": #31c3a6,
+  "teal-lighter": #5fd0ba,
+  "teal-lightest": #8ddece,
+
+  "green-darkest": #12522d,
+  "green-darker": #1e8549,
+  "green-dark": #27ad60,
+  "green": #2ecc71,
+  "green-light": #43d17f,
+  "green-lighter": #6ddb9c,
+  "green-lightest": #97e6b8,
+
+  "blue-darkest": #153d58,
+  "blue-darker": #22638e,
+  "blue-dark": #2c81ba,
+  "blue": #3498db,
+  "blue-light": #48a2df,
+  "blue-lighter": #71b7e6,
+  "blue-lightest": #9acced,
+
+  "purple-darkest": #3e2449,
+  "purple-darker": #653a76,
+  "purple-dark": #844c9b,
+  "purple": #9b59b6,
+  "purple-light": #a56abd,
+  "purple-lighter": #b98bcc,
+  "purple-lightest": #cdacdb,
+
+  "yellow-darkest": #604e06,
+  "yellow-darker": #9d7f0a,
+  "yellow-dark": #cda70d,
+  "yellow": #f1c40f,
+  "yellow-light": #f2ca27,
+  "yellow-lighter": #f5d657,
+  "yellow-lightest": #f8e287,
+
+  "orange-darkest": #5c320e,
+  "orange-darker": #965216,
+  "orange-dark": #c46b1d,
+  "orange": #e67e22,
+  "orange-light": #e98b38,
+  "orange-lighter": #eea564,
+  "orange-lightest": #f3bf91,
+
+  "red-darkest": #5c1e18,
+  "red-darker": #963127,
+  "red-dark": #c44133,
+  "red": #e74c3c,
+  "red-light": #e95e50,
+  "red-lighter": #ee8277,
+  "red-lightest": #f3a69e,
+);
+
+$df-utilities: (
+  // Layout
+  // ------
+  // Display
+  // =======
+  display: (
+    values: value-map(
+      ("hidden": none),
+        block,
+        inline-block,
+        flex,
+        inline-flex,
+        inline,
+        table,
+        table-row,
+        table-cell,
+    ),
+  ),
+
+  // Float
+  // ===== (TODO: Missing clearfix)
+  float: (
+    values: value-map(right, left, none),
+  ),
+
+  // Object fit
+  // ==========
+  object-fit: (
+    values: value-map(contain, cover, fill, none, scale-down),
+  ),
+
+  // Object position
+  // ===============
+  object-position: (
+    values: value-map(
+      top, right-top, right, right-bottom, bottom, left-bottom,
+      left, left-top, center,
+    ),
+  ),
+
+  // Overflow
+  // ========
+  overflow: (
+    values: value-map(auto, hidden, visible, scroll),
+  ),
+
+  // Position
+  // ========
+  position: (
+    values: value-map(static, fixed, absolute, relative, sticky),
+  ),
+
+  // Top Right Bottom Left
+  // =====================
+  top-right-bottom-left: (
+    values: value-map(0, auto),
+  ),
+
+  // Visibility
+  // ==========
+  visibility: (
+    values: (
+      "visible": visible,
+      "invisible": hidden,
+    ),
+  ),
+
+  // Z-index
+  // =======
+  z-index: (
+    values: value-map(0, 10, 20, 30, 40, 50, auto),
+  ),
+
+  // Flexbox
+  // =======
+  flex: (
+    prefix: "flex",
+    properties: ("*": flex),
+    values: (
+      "1": 1 1 0%,
+      "auto": 1 1 auto,
+      "initial": 0 1 auto,
+      "none": none,
+    ),
+  ),
+  flex-grow: (
+    prefix: "flex",
+    properties: ("*": flex-grow),
+    values: (
+      "grow": 1,
+      "grow-0": 0,
+    ),
+  ),
+  flex-shrink: (
+    prefix: "flex",
+    properties: ("*": flex-shrink),
+    values: (
+      "shrink": 1,
+      "shrink-0": 0,
+    ),
+  ),
+  flex-direction: (
+    prefix: "flex",
+    properties: ("*": flex-direction),
+    values: (
+      "row": row,
+      "row-reverse": row-reverse,
+      "col": column,
+      "col-reverse": column-reverse,
+    ),
+  ),
+  flex-wrap: (
+    prefix: "flex",
+    properties: ("*": flex-wrap),
+    values: value-map(nowrap, wrap, wrap-reverse),
+  ),
+  align-items: (
+    prefix: "items",
+    properties: ("*": align-items),
+    values: (
+      "stretch": stretch,
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "baseline": baseline,
+    ),
+  ),
+  align-content: (
+    prefix: "content",
+    properties: ("*": align-content),
+    values: (
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "between": space-between,
+      "around": space-around,
+    ),
+  ),
+  align-self: (
+    prefix: "self",
+    properties: ("*": align-self),
+    values: (
+      "auto": auto,
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "stretch": stretch,
+    ),
+  ),
+  justify-content: (
+    prefix: "justify",
+    properties: ("*": justify-content),
+    values: (
+      "start": flex-start,
+      "center": center,
+      "end": flex-end,
+      "between": space-between,
+      "around": space-around,
+    ),
+  ),
+
+  background-color: (
+    values: $df-colors,
+  ),
+
+
+  color: (
+    values: $df-colors,
+  ),
+
+  // Spacing
+  // -------
+  // Padding
+  // =======
+  padding: (
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+  ),
+
+  // Margin
+  // ======
+  margin: (
+    values: (
+      "1": 0.25em,
+      "2": 0.5em,
+      "3": 0.75em,
+      "4": 1em,
+      "5": 1.5em,
+    ),
+  ),
+
+  // Negative margin
+  // ===============
+  negative-margin: (
+    values: (
+      "1": -0.25em,
+      "2": -0.5em,
+      "3": -0.75em,
+      "4": -1em,
+      "5": -1.5em,
+    ),
+  ),
+);

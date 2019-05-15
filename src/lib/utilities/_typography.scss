@@ -1,0 +1,197 @@
+// Typography
+// ----------
+
+@include register-utility-map(
+  "color", (
+    prefix: "color",
+    properties: ("*": color),
+    values: $df-colors,
+    modifiers: responsive hover,
+  )
+);
+
+@include register-utility-map(
+  "font-family", (
+    prefix: "font",
+    properties: ("*": font-family),
+    values: (
+      "sans": $df-font-sans,
+      "serif": $df-font-serif,
+      "mono": $df-font-mono,
+    )
+  )
+);
+
+@include register-utility-map(
+  "font-size", (
+    prefix: "text",
+    properties: ("*": font-size),
+    values: (
+      "xs": 0.75rem,
+      "sm": 0.875rem,
+      "base": 1rem,
+      "lg": 1.125rem,
+      "xl": 1.25rem,
+      "2xl": 1.5rem,
+      "3xl": 1.875rem,
+      "4xl": 2.25rem,
+      "5xl": 3rem,
+      "6xl": 4rem,
+    )
+  )
+);
+
+@include register-utility(
+  "font-smoothing", (
+    ".antialiased": (
+      "-webkit-font-smoothing": antialiased,
+      "-moz-osx-font-smoothing": grayscale,
+    ),
+    ".subpixel-antialiased": (
+      "-webkit-font-smoothing": auto,
+      "-moz-osx-font-smoothing": auto,
+    )
+  )
+);
+
+@include register-utility-map(
+  "font-style", (
+    properties: ("*": font-style),
+    values: (
+      "italic": italic,
+      "non-italic": normal,
+    )
+  )
+);
+
+@include register-utility-map(
+  "font-weight", (
+    prefix: "font",
+    properties: ("*": font-weight),
+    values: (
+      "hairline": 100,
+      "thin": 200,
+      "light": 300,
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extrabold": 800,
+      "black": 900,
+    )
+  )
+);
+
+
+@include register-utility-map(
+  "letter-spacing", (
+    prefix: "tracking",
+    properties: ("*": letter-spacing),
+    values: (
+      "tighter": -0.05em,
+      "tight": -0.025em,
+      "normal": 0,
+      "wide": 0.025em,
+      "wider": 0.05em,
+      "widest": 0.1em,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "line-height", (
+    prefix: "leading",
+    properties: ("*": line-height),
+    values: (
+      "none": 1,
+      "tight": 1.25,
+      "snug": 1.375,
+      "normal": 1.5,
+      "relaxed": 1.625,
+      "loose": 2,
+    )
+  )
+);
+
+@include register-utility-map(
+  "list-style-type", (
+    prefix: "list",
+    properties: ("*": list-style-type),
+    values: value-map(none, disc, decimal),
+  )
+);
+
+@include register-utility-map(
+  "list-style-position", (
+    prefix: "list",
+    properties: ("*": list-style-position),
+    values: value-map(inside, outside),
+  )
+);
+
+@include register-utility-map(
+  "text-align", (
+    prefix: "text",
+    properties: ("*": text-align),
+    values: value-map(left, center, right, justify),
+  )
+);
+
+@include register-utility-map(
+  "text-decoration", (
+    properties: ("*": text-decoration),
+    values: (
+      "underline": underline,
+      "line-through": line-through,
+      "no-underline": none,
+    ),
+  )
+);
+
+@include register-utility-map(
+  "text-transform", (
+    properties: ("*": text-transform),
+    values: value-map(
+      uppercase,
+      lowercase,
+      capitalize,
+      ("normal-case": none),
+    )
+  )
+);
+
+@include register-utility-map(
+  "vertical-align", (
+    prefix: "align",
+    properties: ("*": vertical-align),
+    values: value-map(baseline, top, middle, bottom, text-top, text-bottom),
+  )
+);
+
+@include register-utility-map(
+  "white-space", (
+    prefix: "whitespace",
+    properties: ("*": white-space),
+    values: value-map(normal, nowrap, pre, pre-line, pre-wrap),
+  )
+);
+
+@include register-utility(
+  "word-break", (
+    ".break-normal": (
+      "overflow-wrap": normal,
+      "word-break": normal,
+    ),
+    ".break-words": (
+      "overflow-wrap": break-word,
+    ),
+    ".break-all": (
+      "word-break": break-all,
+    ),
+    ".truncate": (
+      "overflow": hidden,
+      "text-overflow": ellipsis,
+      "white-space": nowrap,
+    )
+  )
+);

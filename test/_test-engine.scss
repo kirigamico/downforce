@@ -1,0 +1,206 @@
+@include describe("build-utility [function]") {
+  @include it("builds the utility map") {
+    $util-map: (
+      prefix: "m",
+      properties: (
+        "*": margin,
+        "t": margin-top,
+        "b": margin-bottom,
+        "y": margin-top margin-bottom,
+      ),
+      values: (
+        "1": 1px,
+        "2": 2px,
+      ),
+    );
+
+    $expected: (
+      ".m-1": (margin: 1px),
+      ".m-2": (margin: 2px),
+      ".mt-1": (margin-top: 1px),
+      ".mt-2": (margin-top: 2px),
+      ".mb-1": (margin-bottom: 1px),
+      ".mb-2": (margin-bottom: 2px),
+      ".my-1": (margin-top: 1px, margin-bottom: 1px),
+      ".my-2": (margin-top: 2px, margin-bottom: 2px),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+
+  @include it("uses the `.{setting}` class name format") {
+    $util-map: (
+      properties: ("*": display),
+      values: (
+        "block": block,
+        "hidden": none,
+      ),
+    );
+
+    $expected: (
+      ".block": (display: block),
+      ".hidden": (display: none),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+
+    $util-map: (
+      prefix: "border",
+      properties: (
+        "*": border-width,
+        "-t": border-top-width,
+      ),
+      values: (
+        "": 1px,
+        "0": 0,
+      ),
+    );
+
+    $expected: (
+      ".border": (border-width: 1px),
+      ".border-t": (border-top-width: 1px),
+      ".border-0": (border-width: 0),
+      ".border-t-0": (border-top-width: 0),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+
+  @include it("uses the `.{prefix}-{setting}` class name format") {
+    $util-map: (
+      prefix: "m",
+      properties: ("*": margin),
+      values: (
+        "1": 1px,
+        "2": 2px,
+      ),
+    );
+
+    $expected: (
+      ".m-1": (margin: 1px),
+      ".m-2": (margin: 2px),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+
+  @include it("uses the `.{prefix}{property-key}-{setting}` class name format") {
+    $util-map: (
+      prefix: "m",
+      properties: ("t": margin-top),
+      values: (
+        "1": 1px,
+        "2": 2px,
+      ),
+    );
+
+    $expected: (
+      ".mt-1": (margin-top: 1px),
+      ".mt-2": (margin-top: 2px),
+    );
+
+    @include assert-equal(build-utility($util-map), $expected);
+  }
+
+  @include it("uses the correct separator") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("separator": "-")) !global;
+
+    $util-map: (
+      prefix: "color",
+      properties: ("*": color),
+      values: ("red": #f00),
+      modifiers: hover,
+    );
+
+    $expected: (
+      ".color-red": ("color": #f00),
+      ".hover-color-red:hover": ("color": #f00),
+    );
+
+    $output: build-utility($util-map);
+
+    @include assert-equal($output, $expected);
+
+    $df-settings: $orig-settings !global;
+  }
+
+  @include it("adds the global prefix") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("prefix": "df-")) !global;
+
+    $util-map: (
+      prefix: "color",
+      properties: ("*": color),
+      values: ("red": #f00),
+    );
+
+    $expected: (
+      ".df-color-red": ("color": #f00),
+    );
+
+    $output: build-utility($util-map);
+
+    @include assert-equal($output, $expected);
+
+    $df-settings: $orig-settings !global;
+  }
+
+  @include it("errors out when `properties` is not defined") {
+    $util-map: ();
+
+    $output: build-utility($util-map);
+    $expected: "ERROR [build-utility] Utilities must have `properties`.";
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("errors out when `values` is not defined") {
+    $util-map: (properties: ("*": display));
+
+    $output: build-utility($util-map);
+    $expected: "ERROR [build-utility] Utilities must have `values`.";
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("apply-modifiers [function]") {
+  @include it("adds modified versions of the utility") {
+    $util-tree: (
+      ".color-red": (color: #f00),
+      ".color-blue": (color: #00f),
+    );
+
+    $expected: (
+      ".hover\\:color-red:hover": (color: #f00),
+      ".hover\\:color-blue:hover": (color: #00f),
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:color-red": (color: #f00),
+        ".sm\\:color-blue": (color: #00f),
+        ".sm\\:hover\\:color-red:hover": (color: #f00),
+        ".sm\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 768px)": (
+        ".md\\:color-red": (color: #f00),
+        ".md\\:color-blue": (color: #00f),
+        ".md\\:hover\\:color-red:hover": (color: #f00),
+        ".md\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 992px)": (
+        ".lg\\:color-red": (color: #f00),
+        ".lg\\:color-blue": (color: #00f),
+        ".lg\\:hover\\:color-red:hover": (color: #f00),
+        ".lg\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 1200px)": (
+        ".xl\\:color-red": (color: #f00),
+        ".xl\\:color-blue": (color: #00f),
+        ".xl\\:hover\\:color-red:hover": (color: #f00),
+        ".xl\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+    );
+
+    $output: apply-modifiers($util-tree, responsive hover);
+
+    @include assert-equal($output, $expected);
+  }
+}

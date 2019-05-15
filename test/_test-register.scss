@@ -1,0 +1,110 @@
+@function some-modifier () {@return 123};
+
+@include describe("register-modifer [mixin]") {
+  @include it("registers the modifier") {
+    @include register-modifier("foo", "some-modifier");
+
+    $expected: ("foo": get-function("some-modifier"));
+    @include assert-equal(map-get($_df_modifiers, "foo"), get-function("some-modifier"));
+  }
+}
+
+@include describe("get-modifier [function]") {
+  @include it("returns the modifier") {
+    @include register-modifier("foo", "some-modifier");
+
+    $output: get-modifier("foo");
+    $expected: get-function("some-modifier");
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("errors out when trying to get an unknown modifier") {
+    $output: get-modifier("bar");
+    $expected: "ERROR [get-modifier] Modifier `bar` not found.";
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("register-utility-map [mixin]") {
+  @include it("adds the utility to the global utility tree") {
+    $_df_utility_tree: () !global;
+
+    $util-map: (
+      prefix: "m",
+      properties: ("*": margin),
+      values: ("1": 1px),
+      modifiers: hover,
+    );
+    @include register-utility-map("margin", $util-map);
+
+    $expected: (
+      ".m-1": (
+        "margin": 1px,
+      ),
+      ".hover\\:m-1:hover": (
+        "margin": 1px,
+      ),
+    );
+
+    @include assert-equal($_df_utility_tree, $expected);
+  }
+}
+
+@include describe("register-utility [mixin]") {
+  @include it("adds the utility to the global utility tree") {
+    $_df_utility_tree: () !global;
+    $util-tree: (
+      ".foo": (
+        "margin": 1px,
+        "padding": 1px,
+      ),
+    );
+
+    @include register-utility("foo", $util-tree);
+
+    @include assert-equal($_df_utility_tree, $util-tree);
+  }
+
+  @include it("adds the utility with modifiers to the global utility tree") {
+    $_df_utility_tree: () !global;
+    $util-tree: (
+      ".color-red": (color: #f00),
+      ".color-blue": (color: #00f),
+    );
+
+    $expected: (
+      ".color-red": (color: #f00),
+      ".color-blue": (color: #00f),
+      ".hover\\:color-red:hover": (color: #f00),
+      ".hover\\:color-blue:hover": (color: #00f),
+      "@media only screen and (min-width: 576px)": (
+        ".sm\\:color-red": (color: #f00),
+        ".sm\\:color-blue": (color: #00f),
+        ".sm\\:hover\\:color-red:hover": (color: #f00),
+        ".sm\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 768px)": (
+        ".md\\:color-red": (color: #f00),
+        ".md\\:color-blue": (color: #00f),
+        ".md\\:hover\\:color-red:hover": (color: #f00),
+        ".md\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 992px)": (
+        ".lg\\:color-red": (color: #f00),
+        ".lg\\:color-blue": (color: #00f),
+        ".lg\\:hover\\:color-red:hover": (color: #f00),
+        ".lg\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+      "@media only screen and (min-width: 1200px)": (
+        ".xl\\:color-red": (color: #f00),
+        ".xl\\:color-blue": (color: #00f),
+        ".xl\\:hover\\:color-red:hover": (color: #f00),
+        ".xl\\:hover\\:color-blue:hover": (color: #00f),
+      ),
+    );
+
+    @include register-utility("color", $util-tree, responsive hover);
+
+    @include assert-equal($_df_utility_tree, $expected);
+  }
+}

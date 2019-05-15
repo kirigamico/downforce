@@ -1,0 +1,36 @@
+files:
+  include: 'src/**/*.scss'
+options:
+  formatter: stylish
+  merge-default-rules: true
+rules:
+  variable-name-format:
+    - 0
+  class-name-format:
+    - 0
+  mixin-name-format:
+    - 0
+  function-name-format:
+    - 0
+  force-pseudo-nesting:
+    - 0
+  indentation:
+    - 2
+    -
+      size: 2
+  leading-zero:
+    - 2
+    -
+      include: true
+  quotes:
+    - 2
+    -
+      style: double
+  single-line-per-selector:
+    - 0
+  placeholder-in-extend:
+    - 0
+  nesting-depth:
+    - 1
+    -
+      max-depth: 3

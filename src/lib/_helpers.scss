@@ -1,0 +1,70 @@
+@function deep-map-merge($map1, $map2) {
+  $merged-map: $map1;
+
+  @each $key, $value in $map2 {
+    @if type-of(map-get($merged-map, $key)) == "map" and type-of($value) == "map" {
+      $merged-map: map-merge(
+        $merged-map,
+        ($key: deep-map-merge(map-get($merged-map, $key), $value))
+      );
+    } @else {
+      $merged-map: map-merge($merged-map, ($key: $value));
+    }
+  }
+
+  @return $merged-map;
+}
+
+@function value-map($values...) {
+  $value-map: ();
+
+  @each $value in $values {
+    @if type-of($value) == "map" {
+      $value-map: map-merge($value-map, $value);
+    } @else {
+      $value-map: map-merge($value-map, ("#{$value}": $value));
+    }
+  }
+
+  @return $value-map;
+}
+
+@function organize-tree($tree) {
+  // Moves the media queries to the end of the tree
+  $normal-tree: ();
+  $media-tree: ();
+
+  @each $key, $value in $tree {
+    @if str-index($key, "@media") == 1 {
+      $media-tree: map-merge($media-tree, ($key: $value));
+    } @else {
+      $normal-tree: map-merge($normal-tree, ($key: $value));
+    }
+  }
+
+  @return map-merge($normal-tree, $media-tree);
+}
+
+@function color-shades($name, $color) {
+  $shades: (
+    "#{$name}-darkest": mix(#000, $color, 60%),
+    "#{$name}-darker": mix(#000, $color, 35%),
+    "#{$name}-dark": mix(#000, $color, 15%),
+    $name: $color,
+    "#{$name}-light": mix(#fff, $color, 15%),
+    "#{$name}-lighter": mix(#fff, $color, 35%),
+    "#{$name}-lightest": mix(#fff, $color, 60%),
+  );
+
+  @return $shades;
+}
+
+@function map-multi-merge($maps...) {
+  $merged: ();
+
+  @each $map in $maps {
+    $merged: map-merge($merged, $map);
+  }
+
+  @return $merged;
+}

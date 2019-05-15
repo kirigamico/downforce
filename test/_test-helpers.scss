@@ -1,0 +1,142 @@
+@include describe("deep-map-merge [function]") {
+  @include it("deeply merges maps") {
+    $map1: (
+      a: 1,
+      b: 2,
+      c: (
+        d: 3,
+        e: 4,
+        f: (
+          g: 5,
+          h: 6,
+        ),
+      ),
+    );
+
+    $map2: (
+      c: (
+        f: (
+          h: foo,
+          i: bar,
+        ),
+        baz: baz,
+      ),
+      xyz: 123,
+    );
+
+    $expected: (
+      a: 1,
+      b: 2,
+      c: (
+        d: 3,
+        e: 4,
+        f: (
+          g: 5,
+          h: foo,
+          i: bar,
+        ),
+        baz: baz,
+      ),
+      xyz: 123,
+    );
+
+    $output: deep-map-merge($map1, $map2);
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("value-map [function]") {
+  @include it("generates the value map") {
+    $expected: (
+      "block": block,
+      "inline-block": inline-block,
+      "flex": flex,
+    );
+    $output: value-map(block, inline-block, flex);
+    @include assert-equal($output, $expected);
+  }
+
+  @include it("accepts name overrides") {
+    $expected: (
+      "hidden": none,
+      "visible": block,
+      "inline-block": inline-block,
+      "flex": flex,
+    );
+    $output: value-map(
+      (
+        "hidden": none,
+        "visible": block,
+      ),
+        inline-block,
+        flex,
+    );
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("organize-tree [function]") {
+  @include it("moves media queries to the end of the tree") {
+    $tree: (
+      ".foo": (
+        "margin": 1px,
+      ),
+      "@media only screen and (min-width: 576px)": (
+        ".foo": (
+          "margin": 2px,
+        ),
+      ),
+      ".bar": (
+        "padding": 1px,
+      ),
+    );
+
+    $expected: (
+      ".foo": (
+        "margin": 1px,
+      ),
+      ".bar": (
+        "padding": 1px,
+      ),
+      "@media only screen and (min-width: 576px)": (
+        ".foo": (
+          "margin": 2px,
+        ),
+      ),
+    );
+
+    $output: organize-tree($tree);
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("color-shades [function]") {
+  @include it("generates 7 shades of a color") {
+    $color: #1abc9c;
+
+    $expected: (
+      "teal-darkest": mix(#000, $color, 60%),
+      "teal-darker": mix(#000, $color, 35%),
+      "teal-dark": mix(#000, $color, 15%),
+      "teal": $color,
+      "teal-light": mix(#fff, $color, 15%),
+      "teal-lighter": mix(#fff, $color, 35%),
+      "teal-lightest": mix(#fff, $color, 60%),
+    );
+
+    $output: color-shades("teal", $color);
+    @include assert-equal($output, $expected);
+  }
+}
+
+@include describe("map-multi-merge") {
+  @include it("merges multiple maps") {
+    $map1: (a: a);
+    $map2: (b: b);
+    $map3: (c: c);
+
+    $expected: (a: a, b: b, c: c);
+    $output: map-multi-merge($map1, $map2, $map3);
+    @include assert-equal($output, $expected);
+  }
+}

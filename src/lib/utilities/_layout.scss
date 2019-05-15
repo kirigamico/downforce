@@ -1,0 +1,126 @@
+// Layout
+// ------
+
+// Display
+// =======
+@include register-utility-map(
+  "display", (
+    properties: ("*": display),
+    values: value-map(
+      ("hidden": none),
+        block,
+        inline-block,
+        flex,
+        inline-flex,
+        inline,
+        table,
+        table-row,
+        table-cell,
+    ),
+    modifiers: responsive,
+  )
+);
+
+// Float
+// ===== (TODO: Missing clearfix)
+@include register-utility-map(
+  "float", (
+    prefix: "float",
+    properties: ("*": float),
+    values: value-map(right, left, none),
+  )
+);
+@include register-utility(
+  "clearfix", (
+    ".clearfix::after": (
+      "content": "",
+      "display": table,
+      "clear": both,
+    ),
+  )
+);
+
+// Object fit
+// ==========
+@include register-utility-map(
+  "object-fit", (
+    prefix: "object",
+    properties: ("*": object-fit),
+    values: value-map(contain, cover, fill, none, scale-down),
+  )
+);
+
+// Object position
+// ===============
+@include register-utility-map(
+  "object-position", (
+    prefix: "object",
+    properties: ("*": object-position),
+    values: value-map(
+      top, right-top, right, right-bottom, bottom, left-bottom,
+      left, left-top, center,
+    ),
+  )
+);
+
+// Overflow
+// ========
+@include register-utility-map(
+  "overflow", (
+    prefix: "overflow",
+    properties: (
+      "*": overflow,
+      "-x": overflow-x,
+      "-y": overflow-y,
+    ),
+    values: value-map(auto, hidden, visible, scroll),
+  )
+);
+
+// Position
+// ========
+@include register-utility-map(
+  "position", (
+    properties: ("*": position),
+    values: value-map(static, fixed, absolute, relative, sticky),
+  )
+);
+
+// Top Right Bottom Left
+// =====================
+@include register-utility-map(
+  "top-right-bottom-left", (
+    properties: (
+      "inset": top right bottom left,
+      "inset-x": right left,
+      "inset-y": top bottom,
+      "top": top,
+      "right": right,
+      "bottom": bottom,
+      "left": left,
+    ),
+    values: value-map(0, auto),
+  )
+);
+
+// Visibility
+// ==========
+@include register-utility-map(
+  "visibility", (
+    properties: ("*": visibility),
+    values: (
+      "visible": visible,
+      "invisible": hidden,
+    )
+  )
+);
+
+// Z-index
+// =======
+@include register-utility-map(
+  "z-index", (
+    prefix: "z",
+    properties: ("*": z-index),
+    values: value-map(0, 10, 20, 30, 40, 50, auto),
+  )
+);

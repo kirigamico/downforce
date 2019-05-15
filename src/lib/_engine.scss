@@ -1,0 +1,82 @@
+@function build-utility($util-map) {
+  // Add defaults
+  $defaults: (prefix: "", modifiers: []);
+  $util-map: map-merge($defaults, $util-map);
+
+  $prefix: map-get($util-map, "prefix");
+  $prop-map: map-get($util-map, "properties");
+  $value-map: map-get($util-map, "values");
+  $mod-names: map-get($util-map, "modifiers");
+
+  // Error out when required map keys aren't defined
+  @if $prop-map == null or length($prop-map) == 0 {
+    $error: "Utilities must have `properties`.";
+    @return _a_error($error, "build-utility");
+  }
+  @if $value-map == null or length($value-map) == 0 {
+    $error: "Utilities must have `values`.";
+    @return _a_error($error, "build-utility");
+  }
+
+  @if index($mod-names, "responsive") != null and index($mod-names, "responsive") != 1 {
+    $mod-names: _a_remove-nth($mod-names, index($mod-names, "responsive"));
+    $mod-names: join("responsive", $mod-names);
+  }
+
+  // Build utility
+  $util-tree: ();
+
+  @each $prop-key, $prop-name in $prop-map {
+    @each $setting, $value in $value-map {
+      $props: ();
+
+      @each $prop in $prop-name {
+        $props: map-merge($props, ($prop: $value));
+      }
+
+      $global-prefix: setting("prefix");
+      $name: "";
+      @if $prefix == "" and $prop-key == "*"  {
+        $name: ".#{$global-prefix}#{$setting}";
+      } @else if $prop-key == "*" {
+        @if $setting == "" {
+          $name: ".#{$global-prefix}#{$prefix}";
+        } @else {
+          $name: ".#{$global-prefix}#{$prefix}-#{$setting}";
+        }
+      } @else {
+        @if $setting == "" {
+          $name: ".#{$global-prefix}#{$prefix}#{$prop-key}";
+        } @else {
+          $name: ".#{$global-prefix}#{$prefix}#{$prop-key}-#{$setting}";
+        }
+      }
+
+      $util-tree: map-merge($util-tree, ($name: $props));
+    }
+  }
+
+  // Add modifiers
+  $modded-util-tree: apply-modifiers($util-tree, $mod-names);
+
+  @return map-merge($util-tree, $modded-util-tree);
+}
+
+@function apply-modifiers($util-tree, $mod-names) {
+  $modded-util-tree: ();
+
+  @each $mod-name in $mod-names {
+    $modded-tree: call(get-modifier($mod-name), $util-tree);
+
+    // Also apply the responsive modifier to this modifier
+    @if index($mod-names, "responsive") != null and $mod-name != "responsive" {
+      $responsive-mod: get-modifier("responsive");
+      $modded-tree: map-merge($modded-tree, call($responsive-mod, $modded-tree));
+    }
+
+    // Use deep map merge to merge classes inside of media queries
+    $modded-util-tree: deep-map-merge($modded-util-tree, $modded-tree);
+  }
+
+  @return $modded-util-tree;
+}

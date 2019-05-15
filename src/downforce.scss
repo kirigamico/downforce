@@ -1,3 +1,11 @@
-body {
-  color: red;
-}
+// User's custom settings
+@import "settings";
+
+// Sets up Downforce dependencies
+@import "warm-up";
+
+// User's custom components
+@import "components";
+
+// Render utilities
+@include utilities;

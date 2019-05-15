@@ -1,0 +1,176 @@
+@include describe("render [mixin]") {
+  @include it("renders classes") {
+    $tree: (
+      ".m-1": (
+        margin: 1px,
+        padding: 1px,
+      ),
+    );
+
+    @include assert {
+      @include output {
+        @include render($tree);
+      }
+
+      @include expect {
+        .m-1 {
+          margin: 1px;
+          padding: 1px;
+        }
+      }
+    }
+  }
+
+  @include it("renders psuedo classes") {
+    $tree: (
+      ".hover\\:m-2:hover": (
+        margin: 2px,
+      ),
+    );
+
+    @include assert {
+      @include output {
+        @include render($tree);
+      }
+
+      @include expect {
+        .hover\:m-2:hover {
+          margin: 2px;
+        }
+      }
+    }
+  }
+
+  @include it("renders ampersand") {
+    $tree: (
+      ".some-component": (
+        background-color: "#fff",
+        border-radius: 5px,
+        padding: 5px,
+        "&:hover": (
+          padding: 10px,
+        ),
+      ),
+    );
+
+    @include assert {
+      @include output {
+        @include render($tree);
+      }
+
+      @include expect {
+        .some-component {
+          background-color: "#fff";
+          border-radius: 5px;
+          padding: 5px;
+
+          &:hover {
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  @include it("renders media queries") {
+    $media: "@media only screen and (min-width: 576px)";
+    $tree: (
+      $media: (
+        ".sm\\:m-1": (
+          "margin": 1px,
+        ),
+      ),
+    );
+
+    @include assert {
+      @include output {
+        @include render($tree);
+      }
+
+      @include expect {
+        @media only screen and (min-width: 576px) {
+          .sm\:m-1 {
+            margin: 1px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe("apply [mixin]") {
+  @include it("applies the utilities") {
+    $_df_utility_tree: (
+      ".m-1": ("margin": 1px),
+      ".p-1": ("padding": 1px),
+    ) !global;
+
+    @include assert {
+      @include output {
+        .foo {
+          @include apply(m-1 p-1);
+        }
+      }
+
+      @include expect {
+        .foo {
+          margin: 1px;
+          padding: 1px;
+        }
+      }
+    }
+  }
+
+  @include it("works with the global prefix") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("prefix": "df-")) !global;
+    $_df_utility_tree: (
+      ".df-m-1": ("margin": 1px),
+      ".df-p-1": ("padding": 1px),
+    ) !global;
+
+    @include assert {
+      @include output {
+        .foo {
+          @include apply(m-1 df-p-1);
+        }
+      }
+
+      @include expect {
+        .foo {
+          margin: 1px;
+          padding: 1px;
+        }
+      }
+    }
+
+    $df-settings: $orig-settings !global;
+  }
+
+  @include it("errors out if the utility doesn't exist") {
+    $orig-settings: map-merge($df-settings, ());
+    $df-settings: map-merge($df-settings, ("prefix": "df-")) !global;
+    $_df_utility_tree: (
+      ".df-m-1": ("margin": 1px),
+      ".df-p-1": ("padding": 1px),
+    ) !global;
+
+    @include assert {
+      @include output {
+        .foo {
+          @include apply(m-1 df-p-1 m-2);
+        }
+      }
+
+      @include expect {
+        .foo {
+          margin: 1px;
+          padding: 1px;
+          --accoutrement-error: 'ERROR [apply] Utility `m-2` does not exist.';
+        }
+      }
+    }
+
+    $df-settings: $orig-settings !global;
+  }
+}
