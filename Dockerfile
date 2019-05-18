@@ -9,6 +9,10 @@ WORKDIR /node_cache
 COPY package.json yarn.lock ./
 RUN yarn install
 
+WORKDIR /app/website
+COPY website/package.json website/yarn.lock ./
+RUN yarn install
+
 WORKDIR /app
 COPY . /app
 
