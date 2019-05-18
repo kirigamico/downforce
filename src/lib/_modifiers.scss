@@ -1,3 +1,14 @@
+////
+/// Modifiers
+/// @group modifiers
+////
+
+/// Generates the responsive versions of the given utility.
+///
+/// The prefixes and media queries used to generate the responsive versions of
+/// the utiliies can be configured with the `$df-breakpoints` variable.
+///
+/// @param {Tree} $util-tree - The utility tree to modify
 @function responsive-modifier($util-tree) {
   $media-tree: ();
 
