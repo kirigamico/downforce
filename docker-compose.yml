@@ -4,6 +4,8 @@ services:
   node:
     build:
       context: .
+    ports:
+      - 3001:3001
     volumes:
       - .:/app
   docusaurus:

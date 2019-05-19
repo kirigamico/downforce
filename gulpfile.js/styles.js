@@ -1,4 +1,5 @@
 const autoprefixer = require('gulp-autoprefixer')
+const browserSync = require('browser-sync')
 const csso = require('gulp-csso')
 const gulpif = require('gulp-if')
 const sass = require('gulp-sass')
@@ -8,6 +9,8 @@ const {argv} = require('yargs')
 const {dest, src} = require('gulp')
 
 const {plumbing} = require('./utils')
+
+const bs = browserSync.get('BrowserSync')
 
 function styles() {
   return src(['src/**/*.scss'])
@@ -24,6 +27,7 @@ function styles() {
     .pipe(gulpif(argv.prod, csso()))
     .pipe(gulpif(!argv.prod, sourcemaps.write()))
     .pipe(dest('dist/'))
+    .pipe(gulpif(!argv.prod, bs.stream()))
 }
 
 module.exports = styles
