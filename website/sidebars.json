@@ -1,10 +1,21 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "Getting Started": [
+      "getting-started/installation",
+      "getting-started/why-downforce"
+    ],
+    "Modules": [
+      "modules/modifiers",
+      "modules/typography"
+    ],
+    "Miscellaneous": [
+      "release-notes",
+      "doc1",
+      "doc2",
+      "doc3"
+    ]
   },
   "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "API": ["doc4", "doc5"]
   }
 }

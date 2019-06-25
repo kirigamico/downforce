@@ -6,6 +6,8 @@ sidebar_label: Example Page
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
 
+[Link to "API" section](doc4)
+
 Does this work???
 
 ## Lorem

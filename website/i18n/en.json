@@ -21,20 +21,40 @@
       "doc5": {
         "title": "Fifth Document"
       },
+      "getting-started/installation": {
+        "title": "Installation",
+        "sidebar_label": "Installation"
+      },
+      "getting-started/why-downforce": {
+        "title": "Why Downforce",
+        "sidebar_label": "Why Downforce"
+      },
+      "modules/modifiers": {
+        "title": "Modifiers",
+        "sidebar_label": "Modifiers"
+      },
+      "modules/typography": {
+        "title": "Typography",
+        "sidebar_label": "Typography"
+      },
       "quick-start": {
         "title": "quick-start"
+      },
+      "release-notes": {
+        "title": "Release Notes",
+        "sidebar_label": "Release Notes"
       }
     },
     "links": {
       "Docs": "Docs",
-      "API": "API",
       "Help": "Help",
       "Blog": "Blog"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
-      "First Category": "First Category",
-      "Second Category": "Second Category"
+      "Getting Started": "Getting Started",
+      "Modules": "Modules",
+      "Miscellaneous": "Miscellaneous",
+      "API": "API"
     }
   },
   "pages-strings": {
