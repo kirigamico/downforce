@@ -18,6 +18,15 @@ A utility class is used simply by adding it to an element's class.
 </div>
 ```
 
+Want to use the utility class in a component using SCSS?
+
+```scss
+.my-component {
+  // Add a margin of 0.25em and a padding of 0.25em
+  @include apply(m-1 p-1);
+}
+```
+
 ## Modifiers
 
 To change an element's property when certain conditions are met, we add modifiers to a class. Modifiers can be used by adding a prefix to the utility class we wish to invoke.
