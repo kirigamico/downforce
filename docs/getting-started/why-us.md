@@ -1,7 +1,7 @@
 ---
 id: why-downforce
-title: Why Downforce
-sidebar_label: Why Downforce
+title: Why Downforce?
+sidebar_label: Why Downforce?
 ---
 
 Because Downforce is awesome.

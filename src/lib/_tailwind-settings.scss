@@ -1,0 +1,51 @@
+////
+/// Downforce Settings (Based on TailwindCSS)
+/// @group default-settings
+////
+
+/// Settings used to customize Downforce's behavior.
+/// @property {string} prefix [""]- Global prefix. This will be prepended to **base
+/// name** of all utility classes.
+/// @property {string} separator ["\\:"]- Separator used between the modifier
+/// prefix and the utility name.
+$df-settings: (
+  "prefix": "",
+  "separator": "\\:",
+) !default;
+
+/// Breakpoints
+///
+/// These are used by the responsive modifier.
+///
+/// The map's keys will be used as the modifier prefix and its corresponding
+/// value will be used as the min-width.
+$df-breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+) !default;
+
+/// Default set of colors
+///
+/// These are used by the `background-color`, and `color` utilities.
+$df-colors: (
+  "black": #000000,
+  "white": #ffffff,
+) !default;
+
+$df-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$df-font-serif: Georgia, Cambria, "Times New Roman", Times, serif !default;
+$df-font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+
+/// Utility overrides
+$df-utilities: () !default;
+
+/// Getters
+@function setting($key) {
+  @return map-get($df-settings, $key);
+}
+
+@function color($key) {
+  @return map-get($df-colors, $key);
+}
