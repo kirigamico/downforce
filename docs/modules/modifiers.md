@@ -36,7 +36,7 @@ This means that 0px is actually the very first breakpoint and 576px is the secon
 
 This follows the Mobile First design practice, where we use unprefixed utilities to target mobile screens, and use prefixed utilities to override these settings for bigger screens.
 
-### Customize the breakpoints
+### Customizing breakpoints
 
 In `_settings.scss`, you can set your own custom breakpoints:
 
@@ -49,6 +49,12 @@ $df-breakpoints: (
 );
 ```
 
-## Selectors
+## Hover Selector
 
-Phasellus pulvinar ex id commodo imperdiet. Praesent odio nibh, sollicitudin sit amet faucibus id, placerat at metus. Donec vitae eros vitae tortor hendrerit finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vitae purus dolor. Duis suscipit ac nulla et finibus. Phasellus ac sem sed dui dictum gravida. Phasellus eleifend vestibulum facilisis. Integer pharetra nec enim vitae mattis. Duis auctor, lectus quis condimentum bibendum, nunc dolor aliquam massa, id bibendum orci velit quis magna. Ut volutpat nulla nunc, sed interdum magna condimentum non. Sed urna metus, scelerisque vitae consectetur a, feugiat quis magna. Donec dignissim ornare nisl, eget tempor risus malesuada quis.
+Similar to the responsive design modifiers, `hover` can also be used as a prefix to utilities so that they only take effect on hover.
+
+```html
+<p class="bg-black hover:bg-white">Hello world!</p>
+```
+
+Right now, Downforce only supports `hover`.
