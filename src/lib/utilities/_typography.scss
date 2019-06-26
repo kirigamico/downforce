@@ -78,7 +78,8 @@
       "bold": 700,
       "extrabold": 800,
       "black": 900,
-    )
+    ),
+    modifiers: hover,
   )
 );
 
@@ -145,6 +146,7 @@
       "line-through": line-through,
       "no-underline": none,
     ),
+    modifiers: hover,
   )
 );
 

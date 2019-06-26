@@ -58,3 +58,14 @@ Similar to the responsive design modifiers, `hover` can also be used as a prefix
 ```
 
 Right now, Downforce only supports `hover`.
+
+### Selector-Enabled Classes
+
+The `hover` modifier is enabled for these attributes:
+
+* background-color
+* border-color
+* box-shadow
+* color
+* font-weight
+* text-decoration

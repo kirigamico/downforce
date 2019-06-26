@@ -6,6 +6,7 @@
     prefix: "border",
     properties: ("*": border-color),
     values: $df-colors,
+    modifiers: hover,
   )
 );
 
