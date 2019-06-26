@@ -25,9 +25,13 @@
         "title": "Installation",
         "sidebar_label": "Installation"
       },
+      "getting-started/quick-start": {
+        "title": "Quick Start",
+        "sidebar_label": "Quick Start"
+      },
       "getting-started/why-downforce": {
-        "title": "Why Downforce",
-        "sidebar_label": "Why Downforce"
+        "title": "Why Downforce?",
+        "sidebar_label": "Why Downforce?"
       },
       "modules/modifiers": {
         "title": "Modifiers",

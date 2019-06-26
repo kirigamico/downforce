@@ -2,6 +2,7 @@
   "docs": {
     "Getting Started": [
       "getting-started/installation",
+      "getting-started/quick-start",
       "getting-started/why-downforce"
     ],
     "Modules": [
